@@ -163,43 +163,7 @@ Type "help" for help.
 postgres=# alter user postgres with password 'postgres';
 ALTER ROLE
 ```
-<br>
-샘플 데이터를 적재하고 조회해 봅니다. (DVD 렌탈 데이터)
 
-```jsx
-[postgres@k8sel-521149 ~]$ wget https://www.postgresqltutorial.com/wp-content/uploads/2019/05/dvdrental.zip
-
-[postgres@k8sel-521149 ~]$ unzip dvdrental.zip 
-Archive:  dvdrental.zip
-  inflating: dvdrental.tar     
-      
-[postgres@k8sel-521149 ~]$ psql
-psql (16.1)
-Type "help" for help.
-
-postgres=# create database dvdrental;
-CREATE DATABASE
-postgres=# \q
-
-[postgres@k8sel-521149 ~]$ pg_restore --dbname=dvdrental --verbose dvdrental.tar
-
-[postgres@k8sel-521149 ~]$ psql
-psql (16.1)
-Type "help" for help.
-
-postgres=# \c dvdrental
-You are now connected to database "dvdrental" as user "postgres".
-dvdrental=# select count(*) from film;
- count 
--------
-  1000
-(1 row)
-
-dvdrental=# \q
-
-[postgres@k8sel-521149 ~]$ exit
-[centos@k8sel-521149 ~]$
-```
  
  <br>
 mongodb7 을 설치합니다. 
@@ -223,42 +187,6 @@ gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
 [centos@k8sel-521149 ~]$ sudo systemctl start mongod
 ```
 
-<br>
-접속하여 샘플 데이터를 테스트해 봅니다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ mongosh
-Current Mongosh Log ID:	6581a78d8fa4541655d8476d
-Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1
-Using MongoDB:		7.0.4
-Using Mongosh:		2.1.1
-
-For mongosh info see: https://docs.mongodb.com/mongodb-shell/
-
-------
-   The server generated these startup warnings when booting
-   2023-12-19T15:12:04.790+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
-   2023-12-19T15:12:04.790+01:00: vm.max_map_count is too low
-------
-
-test> db.cakeSales.insertMany( [
-...    { _id: 1, flavor: "chocolate", salesTotal: 1580 },
-...    { _id: 2, flavor: "strawberry", salesTotal: 4350 },
-...    { _id: 3, flavor: "cherry", salesTotal: 2150 }
-... ] )
-{ acknowledged: true, insertedIds: { '0': 1, '1': 2, '2': 3 } }
-
-test> db.cakeSales.aggregate(
-...    [
-...       { $match: {
-...          $expr: { $gt: [ "$salesTotal", "$$targetTotal" ] }
-...       } }
-...    ],
-...    { let: { targetTotal: 3000 } }
-... )
-[ { _id: 2, flavor: 'strawberry', salesTotal: 4350 } ]
-test>
-```
 
 개발 DB 환경 구성이 완료되었습니다.
  
@@ -296,13 +224,7 @@ flask 기반의 rest api 개발을 위한 모듈을 설치합니다.
 (msaapp) [centos@k8sel-521149 ~]$ pip install pymongo
 (msaapp) [centos@k8sel-521149 ~]$ pip install psycopg2-binary
 ```
-<br>
-alias를 등록하여 가상환경을 쉽게 활성화하도록 준비합니다.
 
-```jsx
-(msaapp) [centos@k8sel-521149 ~]$ echo "alias msaapp='cd /home/centos/msaapp;source /home/centos/msaapp/bin/activate'" >> ~/.bash_profile
-(msaapp) [centos@k8sel-521149 ~]$ . ~/.bash_profile
-```
 <br><br>
 ### 4. DB to python flask 앱 연계
 <br>
@@ -569,78 +491,7 @@ if __name__ == "__main__":
 
 <br><br>
 ### 5. DB와 python flask앱을 docker기반으로 배포 
-<br>
 
-docker hub에 있는 이미지를 기반으로 nginx를 배포합니다.
-
-```jsx
-[centos@k8sel-521149 ~]$ docker run -it --rm -d -p 8080:80 --name web nginx
-Unable to find image 'nginx:latest' locally
-latest: Pulling from library/nginx
-c57ee5000d61: Pull complete 
-9b0163235c08: Pull complete 
-f24a6f652778: Pull complete 
-9f3589a5fc50: Pull complete 
-f0bd99a47d4a: Pull complete 
-398157bc5c51: Pull complete 
-1ef1c1a36ec2: Pull complete 
-Digest: sha256:5f44022eab9198d75939d9eaa5341bc077eca16fa51d4ef32d33f1bd4c8cbe7d
-Status: Downloaded newer image for nginx:latest
-32cf3b74c0856866a11d0cdb3713cf54b24dd6522dee14c09bdb65269fb1c655
-
-[centos@k8sel-521149 ~]$ docker images
-REPOSITORY                                                          TAG              IMAGE ID       CREATED        SIZE
-nginx                                                               latest           b690f5f0a2d5   3 months ago   187MB
-
-[centos@k8sel-521149 ~]$ docker ps -a
-CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS                     PORTS                                                                                                                                  NAMES
-32cf3b74c085   nginx                                 "/docker-entrypoint.…"   41 seconds ago   Up 38 seconds              0.0.0.0:8080->80/tcp, :::8080->80/tcp                                                                                                  web
-```
-<br>
-docker exec 명령어로 docker 컨테이너의 bash shell에 접속합니다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ docker exec -it web /bin/bash
-
-root@32cf3b74c085:/# hostname
-32cf3b74c085
-
-root@32cf3b74c085:/# ls
-bin   dev		   docker-entrypoint.sh  home  lib32  libx32  mnt  proc  run   srv  tmp  var
-boot  docker-entrypoint.d  etc			 lib   lib64  media   opt  root  sbin  sys  usr
-
-root@32cf3b74c085:/# whoami
-root
-
-root@32cf3b74c085:/# exit
-exit
-[centos@k8sel-521149 ~]$
-```
-<br>
-VM내 fireforx를 기동하고 http://localhost:8080 에 접속하여 nginx 웰컴페이지에 접속할 수 있습니다. 
-
-![Untitled](src/Untitled%2012.png)
-
-
-<br>
-docker inspect 명령으로 컨테이너 상세 정보를 확인할 수 있습니다. 다음은 ip를 조회한 내용입니다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ docker inspect web | grep IPAddress
-            "SecondaryIPAddresses": null,
-            "IPAddress": "172.17.0.6",
-                    "IPAddress": "172.17.0.6",
-```
-<br>
-web 컨테이너를 종료합니다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ docker stop web
-web
-
-[centos@k8sel-521149 ~]$ docker ps -a
-CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                     PORTS                                                                                                                                  NAMES
-```
 <br>
 docker 기반 registry를 구성합니다.
 
@@ -663,92 +514,7 @@ registry insecure 구성후 도커를 재기동 합니다.
 
 [centos@k8sel-521149 ~]$ sudo systemctl restart docker
 ```
-<br>
-nginx 이미지를 빌드하여 구성한 private registry에 push 합니다. 
 
-```jsx
-[centos@k8sel-521149 ~]$ mkdir ~/demo-content
-[centos@k8sel-521149 ~]$ vi ~/demo-content/index.html
-
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Docker Nginx</title>
-</head>
-<body>
-  <h2>This is modified welcome page of Nginx</h2>
-</body>
-</html>
-
-:wq
-
-[centos@k8sel-521149 ~]$ vi Dockerfile
-
-FROM nginx:latest
-COPY ./demo-content/index.html /usr/share/nginx/html/index.html
-
-:wq
-
-[centos@k8sel-521149 ~]$ docker build -t webserver .
-[+] Building 0.3s (7/7) FINISHED                                                                                                      docker:default
- => [internal] load .dockerignore                                                                                                               0.0s
- => => transferring context: 2B                                                                                                                 0.0s
- => [internal] load build definition from Dockerfile                                                                                            0.0s
- => => transferring dockerfile: 179B                                                                                                            0.0s
- => [internal] load metadata for docker.io/library/nginx:latest                                                                                 0.0s
- => [internal] load build context                                                                                                               0.1s
- => => transferring context: 383B                                                                                                               0.0s
- => [1/2] FROM docker.io/library/nginx:latest                                                                                                   0.1s
- => [2/2] COPY ./demo-content/index.html /usr/share/nginx/html/index.html                                                                       0.0s
- => exporting to image                                                                                                                          0.0s
- => => exporting layers                                                                                                                         0.0s
- => => writing image sha256:ddbd999317892685183f0513763029b75f3a94fdeae335eca252a3b705d5d375                                                    0.0s
- => => naming to docker.io/library/webserver                                                                                                    0.0s
-
-[centos@k8sel-521149 ~]$ docker images
-REPOSITORY                                                          TAG              IMAGE ID       CREATED          SIZE
-webserver                                                           latest           ddbd99931789   19 seconds ago   187MB
-
-[centos@k8sel-521149 ~]$ docker run -it --rm -d -p 8080:80 --name web webserver
-dfb24c89038f75ec2ae545c9d8afe86072d1d235860e6478151503d19170ce59
-
-[centos@k8sel-521149 ~]$ docker ps -a
-CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS                     PORTS                                                                                                                                  NAMES
-dfb24c89038f   webserver                             "/docker-entrypoint.…"   16 seconds ago   Up 16 seconds              0.0.0.0:8080->80/tcp, :::8080->80/tcp                                                                                                  web
-```
-<br>
-웹브라우저에서 접속한 화면입니다. 
-
-![Untitled](src/Untitled%2013.png)
-
-<br>
-빌드한 docker image를 push했습니다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ docker images
-REPOSITORY                                                          TAG              IMAGE ID       CREATED         SIZE
-webserver                                                           latest           ddbd99931789   3 minutes ago   187MB
-
-[centos@k8sel-521149 ~]$ docker tag webserver 0.0.0.0:8000/webserver:1.0
-
-[centos@k8sel-521149 ~]$ docker push 0.0.0.0:8000/webserver:1.0
-The push refers to repository [0.0.0.0:8000/webserver]
-c87c50a20ef5: Pushed 
-f205d290cd76: Pushed 
-2b28485849ea: Pushed 
-9f21a390e3f6: Pushed 
-06536efc503a: Pushed 
-84e0c9ef07d7: Pushed 
-83bdf27d9eaa: Pushed 
-fb1bd2fc5282: Pushed 
-1.0: digest: sha256:9e17b30a4c623b4e7a5c7359769c93f7fd548d785697a4d966ad9130c4facb96 size: 1985
-
-[centos@k8sel-521149 ~]$ docker images
-REPOSITORY                                                          TAG              IMAGE ID       CREATED         SIZE
-0.0.0.0:8000/webserver                                              1.0              ddbd99931789   3 minutes ago   187MB
-webserver                                                           latest           ddbd99931789   3 minutes ago   187MB
-```
 <br>
 postgres를 docker 로 배포합니다.
 
