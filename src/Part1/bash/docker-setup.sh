@@ -34,3 +34,17 @@ mongosh mongodb://localhost:27018
 use admin
 db.createUser({ user:'mongo', pwd: 'mongo', roles: ['root'] })
 exit
+
+# Docker 빌드
+docker build -t users:v1.0 -f Dockerfile.userapp .
+docker build -t movies:v1.0 -f Dockerfile.moviesapp .
+
+# 샘플 앱 도커 기동
+docker run -d -p 5001:5000 --name usersapp users:v1.0
+docker run -d -p 5002:5000 --name moviesapp movies:v1.0
+
+# curl call
+curl -X 'POST' 'http://localhost:5001/v1/user/' -H 'accept: application/json' -d ''
+curl -X 'GET' 'http://localhost:5001/v1/user/' -H 'accept: application/json'
+curl -X 'POST' 'http://localhost:5002/v1/movies/' -H 'accept: applica' -d ''
+curl -X 'GET' 'http://localhost:5002/v1/mov   /' -H 'accept: application/json'
