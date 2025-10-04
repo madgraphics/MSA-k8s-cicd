@@ -1,7 +1,5 @@
 # MSA 기반 Kubernetes CI/CD 서비스 메시 구축 가이드
  
-이 샘플 아키텍처는 Kubernetes 환경에서 MongoDB 및 PostgreSQL 기반의 마이크로서비스 아키텍처를 구축하고, CI/CD 파이프라인과 서비스 메시를 적용하는 방법을 단계별로 설명합니다.
-
 ## 목차
 
 1. [개요](#개요)
@@ -76,5 +74,3 @@ Istio를 설치하여 서비스 간 통신 관리, 트래픽 라우팅, 로드 �
 - [Docker 공식 문서](https://docs.docker.com/ko/)
 
 ---
-
-이 가이드는 Kubernetes 환경에서 MongoDB와 PostgreSQL 기반 마이크로서비스 아키텍처 구축, Jenkins CI/CD 파이프라인 적용, Istio 서비스 메시 적용 방법을 단계별로 설명합니다.
