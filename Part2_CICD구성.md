@@ -698,3 +698,7 @@ argocd 어플리케이션을 생성합니다.
 <br>
 user app, movies app등의 yaml을 sync하는 argocd앱 입니다. 
 
+![Untitled](src/Untitled%2054.png)
+![Untitled](src/Untitled%2055.png)
+
+
