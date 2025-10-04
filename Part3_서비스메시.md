@@ -904,6 +904,7 @@ manage   Deployment/manage   52%/30%    3         5         5          25m
 ```
 
 <br>
+
 ## 4. Istio를 활용한 서비스 메시 배포
 
 ## 4.1 Minikube에서 external IP적용
