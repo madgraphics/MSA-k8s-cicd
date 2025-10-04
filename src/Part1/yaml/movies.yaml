@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movies-deployment
+spec:
+  selector:
+    matchLabels:
+      app: movies
+      version: v1.0
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: movies
+        version: v1.0
+    spec:
+      containers:
+      - name: movies
+        image: docker.io/library/movies:v1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: movies
+          containerPort: 5000
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movies-service
+  labels:
+    app: movies
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+  selector:
+    app: movies
