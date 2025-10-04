@@ -120,7 +120,7 @@ udp6       0      0 ::1:323                 :::*                                
 
 <br><br>
 
-### 2. 개발 DB 구성 (postgreSQL, MongoDB)
+### 2. 개발 환경 구성 (postgreSQL, MongoDB, python flask)
 
 <br>
 
@@ -190,8 +190,7 @@ gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
 
 개발 DB 환경 구성이 완료되었습니다.
  
-<br><br>
-### 3. Python Flask 개발 환경 구성
+
 <br>
 파이썬 버전을 확인합니다. 
 
@@ -224,9 +223,10 @@ flask 기반의 rest api 개발을 위한 모듈을 설치합니다.
 (msaapp) [centos@k8sel-521149 ~]$ pip install pymongo
 (msaapp) [centos@k8sel-521149 ~]$ pip install psycopg2-binary
 ```
-
 <br><br>
-### 4. DB to python flask 앱 연계
+
+### 3. 샘플 앱 개발 
+
 <br>
 postgres에서 유저DB와 테이블을 생성합니다
 
@@ -490,7 +490,7 @@ if __name__ == "__main__":
 ```
 
 <br><br>
-### 5. DB와 python flask앱을 docker기반으로 배포 
+### 4. DB와 샘플 앱을 도커환경에 배포
 
 <br>
 docker 기반 registry를 구성합니다.
@@ -870,11 +870,11 @@ global	      pg_hba.conf    pg_multixact  pg_serial	 pg_stat_tmp  pg_twophase  p
 pg_commit_ts  pg_ident.conf  pg_notify	   pg_snapshots  pg_subtrans  PG_VERSION   postgresql.auto.conf  postmaster.pid
 ```
 <br><br>
-### 8. minikube 구성
+### 5. 쿠버네티스 환경 구성 (minikube)
 
 ![Untitled](src/Untitled%2014.png)
 
-쿠버네티스의 싱글 노드 테스트 환경을 구현하기 위해 minikube를 설치한다. 
+쿠버네티스의 싱글 노드 테스트 환경을 구현하기 위해 minikube를 설치합니다. 
 
 ```jsx
 [centos@k8sel-521149 msaapp]$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -926,103 +926,8 @@ alias kubectl="minikube kubectl --"
 [centos@k8sel-521149 msaapp]$ . ~/.bash_profile 
 ```
 
-```jsx
-[centos@k8sel-521149 msaapp]$ kubectl describe node
-Name:               minikube
-Roles:              control-plane
-Labels:             beta.kubernetes.io/arch=amd64
-                    beta.kubernetes.io/os=linux
-                    kubernetes.io/arch=amd64
-                    kubernetes.io/hostname=minikube
-                    kubernetes.io/os=linux
-                    minikube.k8s.io/commit=8220a6eb95f0a4d75f7f2d7b14cef975f050512d
-                    minikube.k8s.io/name=minikube
-                    minikube.k8s.io/primary=true
-                    minikube.k8s.io/updated_at=2024_01_07T08_34_58_0700
-                    minikube.k8s.io/version=v1.32.0
-                    node-role.kubernetes.io/control-plane=
-                    node.kubernetes.io/exclude-from-external-load-balancers=
-Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///var/run/cri-dockerd.sock
-                    node.alpha.kubernetes.io/ttl: 0
-                    volumes.kubernetes.io/controller-managed-attach-detach: true
-CreationTimestamp:  Sun, 07 Jan 2024 08:34:54 +0100
-Taints:             <none>
-Unschedulable:      false
-Lease:
-  HolderIdentity:  minikube
-  AcquireTime:     <unset>
-  RenewTime:       Sun, 07 Jan 2024 08:37:51 +0100
-Conditions:
-  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
-  ----             ------  -----------------                 ------------------                ------                       -------
-  MemoryPressure   False   Sun, 07 Jan 2024 08:35:18 +0100   Sun, 07 Jan 2024 08:34:53 +0100   KubeletHasSufficientMemory   kubelet has sufficient memory available
-  DiskPressure     False   Sun, 07 Jan 2024 08:35:18 +0100   Sun, 07 Jan 2024 08:34:53 +0100   KubeletHasNoDiskPressure     kubelet has no disk pressure
-  PIDPressure      False   Sun, 07 Jan 2024 08:35:18 +0100   Sun, 07 Jan 2024 08:34:53 +0100   KubeletHasSufficientPID      kubelet has sufficient PID available
-  Ready            True    Sun, 07 Jan 2024 08:35:18 +0100   Sun, 07 Jan 2024 08:35:08 +0100   KubeletReady                 kubelet is posting ready status
-Addresses:
-  InternalIP:  192.168.49.2
-  Hostname:    minikube
-Capacity:
-  cpu:                8
-  ephemeral-storage:  40935908Ki
-  hugepages-1Gi:      0
-  hugepages-2Mi:      0
-  memory:             65416104Ki
-  pods:               110
-Allocatable:
-  cpu:                8
-  ephemeral-storage:  40935908Ki
-  hugepages-1Gi:      0
-  hugepages-2Mi:      0
-  memory:             65416104Ki
-  pods:               110
-System Info:
-  Machine ID:                 f581a9d055c546c78dae252482b54b6d
-  System UUID:                606fde4b-95d7-4d6e-9516-ec1f0b85fa29
-  Boot ID:                    57d8f35a-ed34-4045-ae25-3d192c604c3c
-  Kernel Version:             4.18.0-529.el8.x86_64
-  OS Image:                   Ubuntu 22.04.3 LTS
-  Operating System:           linux
-  Architecture:               amd64
-  Container Runtime Version:  docker://24.0.7
-  Kubelet Version:            v1.28.3
-  Kube-Proxy Version:         v1.28.3
-PodCIDR:                      10.244.0.0/24
-PodCIDRs:                     10.244.0.0/24
-Non-terminated Pods:          (7 in total)
-  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
-  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
-  kube-system                 coredns-5dd5756b68-689d4            100m (1%)     0 (0%)      70Mi (0%)        170Mi (0%)     2m41s
-  kube-system                 etcd-minikube                       100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         2m56s
-  kube-system                 kube-apiserver-minikube             250m (3%)     0 (0%)      0 (0%)           0 (0%)         2m54s
-  kube-system                 kube-controller-manager-minikube    200m (2%)     0 (0%)      0 (0%)           0 (0%)         2m54s
-  kube-system                 kube-proxy-vjfkt                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         2m41s
-  kube-system                 kube-scheduler-minikube             100m (1%)     0 (0%)      0 (0%)           0 (0%)         2m55s
-  kube-system                 storage-provisioner                 0 (0%)        0 (0%)      0 (0%)           0 (0%)         2m53s
-Allocated resources:
-  (Total limits may be over 100 percent, i.e., overcommitted.)
-  Resource           Requests    Limits
-  --------           --------    ------
-  cpu                750m (9%)   0 (0%)
-  memory             170Mi (0%)  170Mi (0%)
-  ephemeral-storage  0 (0%)      0 (0%)
-  hugepages-1Gi      0 (0%)      0 (0%)
-  hugepages-2Mi      0 (0%)      0 (0%)
-Events:
-  Type    Reason                   Age    From             Message
-  ----    ------                   ----   ----             -------
-  Normal  Starting                 2m40s  kube-proxy       
-  Normal  Starting                 2m55s  kubelet          Starting kubelet.
-  Normal  NodeHasSufficientMemory  2m55s  kubelet          Node minikube status is now: NodeHasSufficientMemory
-  Normal  NodeHasNoDiskPressure    2m55s  kubelet          Node minikube status is now: NodeHasNoDiskPressure
-  Normal  NodeHasSufficientPID     2m55s  kubelet          Node minikube status is now: NodeHasSufficientPID
-  Normal  NodeNotReady             2m55s  kubelet          Node minikube status is now: NodeNotReady
-  Normal  NodeAllocatableEnforced  2m54s  kubelet          Updated Node Allocatable limit across pods
-  Normal  NodeReady                2m44s  kubelet          Node minikube status is now: NodeReady
-  Normal  RegisteredNode           2m42s  node-controller  Node minikube event: Registered Node minikube in Controller
-```
-
-minikube 기반 로컬 private registry를 구성한다. 
+<br>
+minikube 기반 로컬 private registry를 구성합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ minikube addons enable registry
@@ -1033,8 +938,8 @@ You can view the list of minikube maintainers at: https://github.com/kubernetes/
 🔎  Verifying registry addon...
 🌟  The 'registry' addon is enabled
 ```
-
-registry 애드온이 80포트로 서비스되는 것을 확인 한다.
+<br>
+registry 애드온이 80포트로 서비스되는 것을 확인 합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl get pods -A
@@ -1049,8 +954,8 @@ NAMESPACE     NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)     
 kube-system   registry     ClusterIP   10.96.74.176   <none>        80/TCP,443/TCP           74s
 
 ```
-
-포트포워드를 하여 로컬호스트 포트로 서비스로 한다. 
+<br>
+포트포워드를 하여 로컬호스트 포트로 서비스 합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl port-forward --namespace kube-system service/registry 8000:80 &
@@ -1062,8 +967,8 @@ Forwarding from [::1]:8000 -> 5000
 Handling connection for 8000
 {"repositories":[]}
 ```
-
-로컬 도커 이미지를 push 한다.
+<br>
+로컬 도커 이미지를 push 합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ docker tag users:v1.0 localhost:8000/users:v1.0
@@ -1145,246 +1050,13 @@ Handling connection for 8000
 {"repositories":["movies","users"]}
 ```
 
-### 8-1 minikube기반 Nginx 샘플 예제
-
-minikube에 nginx 배포를 테스트 한다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ kubectl run nginx --image=nginx --port=80
-pod/nginx created
-
-[centos@k8sel-521149 ~]$ kubectl describe pod nginx
-Name:             nginx
-Namespace:        default
-Priority:         0
-Service Account:  default
-Node:             minikube/192.168.49.2
-Start Time:       Sun, 28 Jan 2024 07:29:28 +0100
-Labels:           run=nginx
-Annotations:      <none>
-Status:           Running
-IP:               10.244.0.8
-IPs:
-  IP:  10.244.0.8
-Containers:
-  nginx:
-    Container ID:   docker://536fbf85c595d17989bee7a85ba9712526cee84c7b5abe9df85e1628391ce867
-    Image:          nginx
-    Image ID:       docker-pullable://nginx@sha256:4c0fdaa8b6341bfdeca5f18f7837462c80cff90527ee35ef185571e1c327beac
-    Port:           80/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sun, 28 Jan 2024 07:29:38 +0100
-    Ready:          True
-    Restart Count:  0
-    Environment:    <none>
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-crzp7 (ro)
-Conditions:
-  Type              Status
-  Initialized       True 
-  Ready             True 
-  ContainersReady   True 
-  PodScheduled      True 
-Volumes:
-  kube-api-access-crzp7:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              <none>
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age   From               Message
-  ----    ------     ----  ----               -------
-  Normal  Scheduled  83s   default-scheduler  Successfully assigned default/nginx to minikube
-  Normal  Pulling    83s   kubelet            Pulling image "nginx"
-  Normal  Pulled     76s   kubelet            Successfully pulled image "nginx" in 7.067s (7.067s including waiting)
-  Normal  Created    73s   kubelet            Created container nginx
-  Normal  Started    73s   kubelet            Started container nginx
-
-[centos@k8sel-521149 ~]$ kubectl delete pod nginx
-pod "nginx" deleted
-```
-
-레플리카를 적용해 nginx 를 배포한다.
-
-```jsx
-[centos@k8sel-521149 ~]$ kubectl create deployment nginx --image=nginx --port=80 --replicas=3
-deployment.apps/nginx created
- 
-[centos@k8sel-521149 ~]$ kubectl get pods 
-NAME                     READY   STATUS    RESTARTS   AGE
-nginx-7c5ddbdf54-2wsnd   1/1     Running   0          12s
-nginx-7c5ddbdf54-j4msn   1/1     Running   0          12s
-nginx-7c5ddbdf54-rj6h8   1/1     Running   0          12s
-
-[centos@k8sel-521149 ~]$ kubectl get pods -o wide
-NAME                     READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-nginx-7c5ddbdf54-2wsnd   1/1     Running   0          47s   10.244.0.11   minikube   <none>           <none>
-nginx-7c5ddbdf54-j4msn   1/1     Running   0          47s   10.244.0.10   minikube   <none>           <none>
-nginx-7c5ddbdf54-rj6h8   1/1     Running   0          47s   10.244.0.9    minikube   <none>           <none>
-
-[centos@k8sel-521149 ~]$ kubectl get deployments
-NAME    READY   UP-TO-DATE   AVAILABLE   AGE
-nginx   3/3     3            3           54s
-
-[centos@k8sel-521149 ~]$ kubectl logs nginx-7c5ddbdf54-rj6h8
-/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
-/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
-/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
-10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
-10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
-/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
-/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
-/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
-/docker-entrypoint.sh: Configuration complete; ready for start up
-2024/01/28 06:55:27 [notice] 1#1: using the "epoll" event method
-2024/01/28 06:55:27 [notice] 1#1: nginx/1.25.3
-2024/01/28 06:55:27 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
-2024/01/28 06:55:27 [notice] 1#1: OS: Linux 4.18.0-529.el8.x86_64
-2024/01/28 06:55:27 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
-2024/01/28 06:55:27 [notice] 1#1: start worker processes
-2024/01/28 06:55:27 [notice] 1#1: start worker process 29
-2024/01/28 06:55:27 [notice] 1#1: start worker process 30
-2024/01/28 06:55:27 [notice] 1#1: start worker process 31
-2024/01/28 06:55:27 [notice] 1#1: start worker process 32
-2024/01/28 06:55:27 [notice] 1#1: start worker process 33
-2024/01/28 06:55:27 [notice] 1#1: start worker process 34
-2024/01/28 06:55:27 [notice] 1#1: start worker process 35
-2024/01/28 06:55:27 [notice] 1#1: start worker process 36
-
-[centos@k8sel-521149 ~]$ kubectl delete deployment nginx
-deployment.apps "nginx" deleted
-
-[centos@k8sel-521149 ~]$ kubectl get pods
-No resources found in default namespace.
-```
-
-YAML 기반으로 nginx를 배포한다. 
-
-deployment방식으로 3개 레플리카를 구성하고, nodeport 로 expose 하고, [localhost](http://localhost) 로도 포트포워드 한다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ msaapp
-(msaapp) [centos@k8sel-521149 msaapp]$ vi nginx-pod.yaml
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-
-:wq
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl apply -f nginx-pod.yaml
-deployment.apps/nginx-deployment created
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl get pods
-NAME                                READY   STATUS    RESTARTS   AGE
-nginx-deployment-7c79c4bf97-49gwq   1/1     Running   0          20s
-nginx-deployment-7c79c4bf97-4r7jp   1/1     Running   0          20s
-nginx-deployment-7c79c4bf97-t45xx   1/1     Running   0          20s
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl expose deployment nginx-deployment --type=NodePort --name=nginx-service
-service/nginx-service exposed
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl get services
-NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-kubernetes      ClusterIP   10.96.0.1        <none>        443/TCP        20d
-nginx-service   NodePort    10.105.170.148   <none>        80:32216/TCP   2m33s
-
-(msaapp) [centos@k8sel-521149 msaapp]$ minikube service nginx-service --url
-http://192.168.49.2:32216
- 
-(msaapp) [centos@k8sel-521149 msaapp]$ curl http://192.168.49.2:32216
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
-
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
-
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl port-forward svc/nginx-service 32216:80 &
-[2] 128160
-
-(msaapp) [centos@k8sel-521149 msaapp]$ Forwarding from 127.0.0.1:32216 -> 80
-Forwarding from [::1]:32216 -> 80
-
-(msaapp) [centos@k8sel-521149 msaapp]$ curl http://localhost:32216
-Handling connection for 32216
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
-
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
-
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl delete service nginx-service
-service "nginx-service" deleted
-
-(msaapp) [centos@k8sel-521149 msaapp]$ kubectl delete deployments nginx-deployment
-deployment.apps "nginx-deployment" deleted
-```
-
-### 9. minikube기반 flask 샘플 앱 배포
+<br><br>
+### 9. minikube기반 k8s 플랫폼으로 샘플 앱 배포
 
 [mongodb operator](https://www.notion.so/mongodb-operator-768adcda2c6c485fae6bc7fb9b2e9c3a?pvs=21)
 
-mongodb.yaml 을 작성한다. 
+<br>
+mongodb.yaml 을 작성합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi mongodb.yaml
