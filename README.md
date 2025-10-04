@@ -124,6 +124,8 @@ udp6       0      0 ::1:323                 :::*                                
 
 ![Untitled](src/Untitled%2010.png)
 
+<br>
+
 postgreSQL 16을  설치합니다.
 
 ```jsx
@@ -145,7 +147,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/postgresql-16.servic
 
 [centos@k8sel-521149 ~]$ sudo systemctl start postgresql-16
 ```
-
+<br>
 접속하여 postgres 유저 패스워드를 변경합니다.
 
 ```jsx
@@ -158,7 +160,7 @@ Type "help" for help.
 postgres=# alter user postgres with password 'postgres';
 ALTER ROLE
 ```
-
+<br>
 샘플 데이터를 조회해 봅니다. (DVD 렌탈 데이터)
 
 ```jsx
@@ -195,9 +197,9 @@ dvdrental=# \q
 [postgres@k8sel-521149 ~]$ exit
 [centos@k8sel-521149 ~]$
 ```
-
+<br>
 참조 URL : [https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/)
-
+<br>
 mongodb7 을 설치합니다. 
 
 ```jsx
@@ -218,11 +220,11 @@ gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
 
 [centos@k8sel-521149 ~]$ sudo systemctl start mongod
 ```
-
+<br>
 참조 URL: [https://www.mongodb.com/docs/manual/tutorial/getting-started/](https://www.mongodb.com/docs/manual/tutorial/getting-started/) 
 
                  [https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate](https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate)
-
+<br>
 접속하여 샘플 데이터를 조회해 봅니다. 
 
 ```jsx
@@ -258,7 +260,7 @@ test> db.cakeSales.aggregate(
 [ { _id: 2, flavor: 'strawberry', salesTotal: 4350 } ]
 test>
 ```
-
+<br>
 샘플 데이터 및 aggregate 메소드를 테스트해 봅니다. 
 
 ```jsx
@@ -277,9 +279,9 @@ db.cakeSales.aggregate(
    { let: { targetTotal: 3000 } }
 )
 ```
-
+<br><br>
 ### 3. Python Flask 개발 환경 구성
-
+<br>
 파이썬 버전을 확인합니다. 
 
 ```jsx
@@ -287,7 +289,7 @@ db.cakeSales.aggregate(
 [centos@k8sel-521149 bin]$ python3.8 -V
 Python 3.8.17
 ```
-
+<br>
 virtual env 가상 환경을 생성하고 활성화합니다. 
 
 ```jsx
@@ -295,13 +297,13 @@ virtual env 가상 환경을 생성하고 활성화합니다.
 [centos@k8sel-521149 ~]$ source ~/msaapp/bin/activate
 (msaapp) [centos@k8sel-521149 ~]$
 ```
-
+<br>
 pip를 최신버전으로 업그레이드 합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 ~]$ pip install --upgrade pip
 ```
-
+<br>
 flask 기반의 rest api 개발을 위한 모듈을 설치합니다. 
 
 ```jsx
@@ -311,16 +313,16 @@ flask 기반의 rest api 개발을 위한 모듈을 설치합니다.
 (msaapp) [centos@k8sel-521149 ~]$ pip install pymongo
 (msaapp) [centos@k8sel-521149 ~]$ pip install psycopg2-binary
 ```
-
+<br>
 alias를 등록하여 가상환경을 쉽게 활성화하도록 준비합니다.
 
 ```jsx
 (msaapp) [centos@k8sel-521149 ~]$ echo "alias msaapp='cd /home/centos/msaapp;source /home/centos/msaapp/bin/activate'" >> ~/.bash_profile
 (msaapp) [centos@k8sel-521149 ~]$ . ~/.bash_profile
 ```
-
+<br><br>
 ### 4. DB to python flask 앱 연계
-
+<br>
 postgres에서 유저DB와 테이블을 생성합니다
 
 ```jsx
@@ -350,7 +352,7 @@ users(# );
 CREATE TABLE
 users=# \q
 ```
-
+<br>
 users.sql
 
 ```jsx
@@ -368,7 +370,7 @@ CREATE TABLE users
         last_conn_date timestamp
 );
 ```
-
+<br>
 [users.py](http://users.py) 를 작성합니다. 
 
 ```jsx
@@ -448,7 +450,7 @@ if __name__ == "__main__":
     app.debug = True
     app.run(host="0.0.0.0", port=int("5000"))
 ```
-
+<br>
 mongodb에서 유저를 추가합니다.
 
 ```jsx
@@ -489,7 +491,7 @@ For mongosh info see: https://docs.mongodb.com/mongodb-shell/
 
 test>
 ```
-
+<br>
 [movies.py](http://movies.py) 를 작성합니다. 
 
 ```jsx
@@ -581,15 +583,15 @@ if __name__ == "__main__":
     app.debug = True
     app.run(host="0.0.0.0", port=int("5000"))
 ```
-
+<br>
 한국영상자료원 KMDB 영화리스트
 
 [movies.json](src/movies.json)
-
+<br><br>
 ### 5. DB와 python flask앱을 docker기반으로 배포 
-
+<br>
 ![Untitled](src/Untitled%2011.png)
-
+<br>
 docker hub에 있는 이미지를 기반으로 nginx를 배포합니다.
 
 ```jsx
@@ -615,7 +617,7 @@ nginx                                                               latest      
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS                     PORTS                                                                                                                                  NAMES
 32cf3b74c085   nginx                                 "/docker-entrypoint.…"   41 seconds ago   Up 38 seconds              0.0.0.0:8080->80/tcp, :::8080->80/tcp                                                                                                  web
 ```
-
+<br>
 docker exec 명령어로 docker 컨테이너의 bash shell에 접속합니다. 
 
 ```jsx
@@ -635,13 +637,13 @@ root@32cf3b74c085:/# exit
 exit
 [centos@k8sel-521149 ~]$
 ```
-
+<br>
 VM내 fireforx를 기동하고 [http://localhost:8080](http://localhost:8080) 에 접속하여 nginx 웰컴페이지에 접속할 수 있습니다. 
 
 ![Untitled](src/Untitled%2012.png)
-
+<br>
 docker logs로 컨테이너의 stdout과 stderr 내용을 볼 수 있습니다. 
-
+<br>
 docker network로 도커환경의 네트워크 구성을 볼 수 있습니다. 
 
 ```jsx
@@ -699,7 +701,7 @@ ens3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
         TX packets 28958  bytes 26665213 (25.4 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-
+<br>
 docker inspect 명령으로 컨테이너 상세 정보를 확인할 수 있습니다. 다음은 ip를 조회한 내용입니다. 
 
 ```jsx
@@ -708,7 +710,7 @@ docker inspect 명령으로 컨테이너 상세 정보를 확인할 수 있습�
             "IPAddress": "172.17.0.6",
                     "IPAddress": "172.17.0.6",
 ```
-
+<br>
 web 컨테이너를 종료합니다. 
 
 ```jsx
@@ -718,14 +720,14 @@ web
 [centos@k8sel-521149 ~]$ docker ps -a
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                     PORTS                                                                                                                                  NAMES
 ```
-
+<br>
 docker 기반 registry를 구성합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ docker run --name localhub -d --restart=always -p 8000:5000 registry:latest
 ab21f10bc6f5aab43b743df6cb0f54246fe00445ba0fc1883538f5051366cd03
 ```
-
+<br>
 registry insecure 구성후 도커를 재기동 합니다. 
 
 ```jsx
@@ -740,7 +742,7 @@ registry insecure 구성후 도커를 재기동 합니다.
 
 [centos@k8sel-521149 ~]$ sudo systemctl restart docker
 ```
-
+<br>
 nginx 이미지를 빌드하여 구성한 private registry에 push 합니다. 
 
 ```jsx
@@ -794,11 +796,11 @@ dfb24c89038f75ec2ae545c9d8afe86072d1d235860e6478151503d19170ce59
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS                     PORTS                                                                                                                                  NAMES
 dfb24c89038f   webserver                             "/docker-entrypoint.…"   16 seconds ago   Up 16 seconds              0.0.0.0:8080->80/tcp, :::8080->80/tcp                                                                                                  web
 ```
-
+<br>
 웹브라우저에서 접속한 화면입니다. 
 
 ![Untitled](src/Untitled%2013.png)
-
+<br>
 빌드한 docker image를 push했습니다. 
 
 ```jsx
@@ -825,11 +827,11 @@ REPOSITORY                                                          TAG         
 0.0.0.0:8000/webserver                                              1.0              ddbd99931789   3 minutes ago   187MB
 webserver                                                           latest           ddbd99931789   3 minutes ago   187MB
 ```
-
+<br>
 postgres를 docker 로 배포합니다.
 
 참고 URL : [https://hub.docker.com/_/postgres?tab=tags](https://hub.docker.com/_/postgres?tab=tags)
-
+<br>
 postgres 컨테이너의 데이터를 관리하기 위한 볼륨을 생성합니다. 
 
 ```jsx
@@ -849,7 +851,7 @@ pgdata
     }
 ]
 ```
-
+<br>
 postgres 컨테이너를 구동합니다.
 
 ```jsx
@@ -878,7 +880,7 @@ Status: Downloaded newer image for postgres:16
 CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS         PORTS                                       NAMES
 3ecccf0736f9   postgres:16   "docker-entrypoint.s…"   12 seconds ago   Up 4 seconds   0.0.0.0:5430->5432/tcp, :::5430->5432/tcp   testdb-postgres
 ```
-
+<br>
 posgres에 접속하여 스키마를 구성합니다. 
 
 ```jsx
@@ -910,7 +912,7 @@ users(# );
 CREATE TABLE
 users=# \q
 ```
-
+<br>
 [users.py](http://users.py)에서 db ip, port를 수정 후, 실행합니다. 
 
 ```jsx
@@ -943,7 +945,7 @@ msaapp) [centos@k8sel-521149 msaapp]$ curl -X 'POST'   'http://localhost:5000/v1
 127.0.0.1 - - [04/Jan/2024 07:11:20] "GET /v1/user/ HTTP/1.1" 200 -
 [[{"user_id": 10, "user_name": "김성호", "user_agent": "Mozilla/5.0 (Windows CE) AppleWebKit/534.2 (KHTML, like Gecko) Chrome/51.0.880.0 Safari/534.2", "last_conn_date": "2024-01-04T06:11:18.139269"}]]
 ```
-
+<br>
 mongodb 컨테이너의 데이터를 관리하기 위한 볼륨을 생성합니다. 
 
 ```jsx
@@ -963,7 +965,7 @@ mongodata
     }
 ]
 ```
-
+<br>
 mongodb 컨테이너를 구동합니다. 
 
 ```jsx
@@ -983,7 +985,7 @@ Digest: sha256:d14158139a0bbc1741136d3eded7bef018a5980760a57f0014a1d4ac7677e4b1
 Status: Downloaded newer image for mongo:7
 024601580cc1f317abceb1c085775d0fff08b3b7c1d9d7047f3d48683e725958
 ```
-
+<br>
 mongodb 에 접속하여 콜렉션을 확인해 봅니다. 
 
 ```jsx
@@ -1011,7 +1013,7 @@ test> show collections
 
 test>
 ```
-
+<br>
 [movies.py](http://movies.py) 에서 ip, db port를 수정 후, 실행합니다. 
 
 ```jsx
@@ -1042,7 +1044,7 @@ Press CTRL+C to quit
 127.0.0.1 - - [07/Jan/2024 06:33:36] "GET /v1/movies/ HTTP/1.1" 200 -
 "[{\"moviecd\": \"K05257\", \"moviename\": \"공동경비구역 J.S.A\", \"moviedirector\": \"박찬욱\", \"publishyear\": \"2000\", \"cat1\": \"국내\", \"cat2\": \"[한겨레] 한국영화 100선 (2019)\"}]"
 ```
-
+<br>
 이제 user 관리 어플리케이션과 movies 관리 어플리케이션을 컨테이너화 합니다. 
 
 user, movies app각각의 Dockerfile 을 작성한후 빌드하고 DB 컨테이너와 연동합니다. 
@@ -1052,7 +1054,7 @@ user, movies app각각의 Dockerfile 을 작성한후 빌드하고 DB 컨테이�
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ pip freeze > requirements.txt
 ```
-
+<br>
 Dockerfile.userapp을 작성하고 build 합니다. 
 
 ```jsx
@@ -1087,7 +1089,7 @@ CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
  => => writing image sha256:1f5f4cc199fbbbcc389c5933f8ce617fa55c822fc339767a1a0beebe91cd7c31                        0.0s 
  => => naming to docker.io/library/users:v1.0                                                                       0.0s 
 ```
-
+<br>
 Dockerfile.moviesapp을 작성하고 build 합니다. 
 
 ```jsx
@@ -1122,7 +1124,7 @@ CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
  => => writing image sha256:220f3f2d87fa73ff78f39af5b5506d5d023e284bab86548aa50fcf08b5d98a99                        0.0s 
  => => naming to docker.io/library/movies:v1.0                                                                      0.0s
 ```
-
+<br>
 docker 이미지로 컨테이너화된 DB와 App 목록입니다. 
 
 ```jsx
@@ -1134,7 +1136,7 @@ quay.io/centos/centos   stream8   b27dee4ed0c4   4 days ago       218MB
 mongo                   7         2e123a0ccb4b   2 weeks ago      757MB
 postgres                16        398d34d3cc5e   3 weeks ago      425MB
 ```
-
+<br>
 어플리케이션 컨테이너를 구동하여 테스트해 봅니다. 
 
 ```jsx
@@ -1163,7 +1165,7 @@ f93f0e3de37e   movies:v1.0   "python3 -m flask ru…"   3 seconds ago    Up 2 se
 (msaapp) [centos@k8sel-521149 msaapp]$ curl -X 'GET'   'http://localhost:5002/v1/mov   /'   -H 'accept: application/json'
 "[{\"moviecd\": \"F06355\", \"moviename\": \"산딸기\", \"moviedirector\": \"잉마르 베르히만\", \"publishyear\": \"1957\", \"cat1\": \"사이트 & 사운드\", \"cat2\": \"2012 (평론가)\"}, {\"moviecd\": \"K05257\", \"moviename\": \"공동경비구역 J.S.A\", \"moviedirector\": \"박찬욱\", \"publishyear\": \"2000\", \"cat1\": \"국내\", \"cat2\": \"[한겨레] 한국영화 100선 (2019)\"}]"
 ```
-
+<br>
 삽입된 데이터들은 아래 host path에 영구 스토리지로 관리됩니다. 
 
 ```jsx
@@ -1180,7 +1182,7 @@ base	      pg_dynshmem    pg_logical    pg_replslot	 pg_stat      pg_tblspc    p
 global	      pg_hba.conf    pg_multixact  pg_serial	 pg_stat_tmp  pg_twophase  pg_xact		 postmaster.opts
 pg_commit_ts  pg_ident.conf  pg_notify	   pg_snapshots  pg_subtrans  PG_VERSION   postgresql.auto.conf  postmaster.pid
 ```
-
+<br><br>
 ### 8. minikube 구성
 
 ![Untitled](src/Untitled%2014.png)
