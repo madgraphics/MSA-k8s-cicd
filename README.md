@@ -1,7 +1,7 @@
 # 마이크로서비스 & 서비스메시 샘플 아키텍처
 <br><br>
 
-### 1. CentOS Stream 8 x86환경 구성
+## 1. CentOS Stream 8 x86환경 구성
 
 <br>
 
@@ -120,7 +120,7 @@ udp6       0      0 ::1:323                 :::*                                
 
 <br><br>
 
-### 2. 개발 환경 구성 (postgreSQL, MongoDB, python flask)
+## 2. 개발 환경 구성 (postgreSQL, MongoDB, python flask)
 
 <br>
 
@@ -225,7 +225,7 @@ flask 기반의 rest api 개발을 위한 모듈을 설치합니다.
 ```
 <br><br>
 
-### 3. 샘플 앱 개발 
+## 3. 샘플 앱 개발 
 
 <br>
 postgres에서 유저DB와 테이블을 생성합니다
@@ -490,7 +490,7 @@ if __name__ == "__main__":
 ```
 
 <br><br>
-### 4. DB와 샘플 앱을 도커환경에 배포
+## 4. DB와 샘플 앱을 도커환경에 배포
 
 <br>
 docker 기반 registry를 구성합니다.
@@ -870,7 +870,7 @@ global	      pg_hba.conf    pg_multixact  pg_serial	 pg_stat_tmp  pg_twophase  p
 pg_commit_ts  pg_ident.conf  pg_notify	   pg_snapshots  pg_subtrans  PG_VERSION   postgresql.auto.conf  postmaster.pid
 ```
 <br><br>
-### 5. 쿠버네티스 환경 구성 (minikube)
+## 5. 쿠버네티스 환경 구성 (minikube)
 
 ![Untitled](src/Untitled%2014.png)
 
