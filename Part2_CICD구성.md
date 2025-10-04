@@ -2,7 +2,7 @@
 
 <br>
 
-## 1. gitlab CI 구성
+## 1. gitlab을 활용한 CICD 구성
 
 <br>
 docker 기반으로 gitlab을 구성합니다.
@@ -75,32 +75,40 @@ root/<위에서 복사한 패스워드>를 입력합니다.
 
 ![Untitled](src/Untitled%2016.png)
 
-왼쪽 메뉴(Admin Area)를 띄워서, Admin > Users 를 선택한다. 
+<br>
+왼쪽 메뉴(Admin Area)를 띄워서, Admin > Users 를 선택합니다. 
 
-New user 를 클릭한다. 
+<br>
+New user 를 클릭합니다. 
 
 ![Untitled](src/Untitled%2017.png)
 
-- 다음과 같이 입력하여 생성한다.
+<br>
+- 다음과 같이 입력하여 생성합니다.
     - Name : devadm
     - Username : devadm
     - Email : <유저 email>
 
 ![Untitled](src/Untitled%2018.png)
 
-유저 생성이 완료되었다. 
+<br>
+유저 생성이 완료되었습니다. 
 
 ![Untitled](src/Untitled%2019.png)
 
-devadm 유저에서 오른쪽의 Edit 버튼을 눌러 패스워드를 설정해준다. 
+<br>
+devadm 유저에서 오른쪽의 Edit 버튼을 눌러 패스워드를 설정해 줍니다. 
 
 ![Untitled](src/Untitled%2020.png)
 
-root를 로그아웃하고, devadm으로 로그인한다. 
+<br>
+root를 로그아웃하고, devadm으로 로그인합니다. 
 
 ![Untitled](src/Untitled%2021.png)
 
-VM로컬의 소스 디렉토리로 이동한다. 
+<br>
+호스트명에 gitlab을 추가해 줍니다.
+로컬의 소스 디렉토리로 이동하여, git push를 진행합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ sudo vi /etc/hosts
@@ -214,55 +222,33 @@ branch 'master' set up to track 'origin/master'.
 
 ```
 
-gitlab 웹브라우저를 리로드하면 프로젝트에 소스가 업로드된 것을 볼수 있다. 
+<br>
+gitlab 웹브라우저를 리로드하면 프로젝트에 소스가 업로드된 것을 볼수 있습니다. 
 
 ![Untitled](src/Untitled%2022.png)
 
 ![Untitled](src/Untitled%2023.png)
 
-왼편메뉴에서 Setting > CI/CD를 선택한다. 
+<br>
+왼편메뉴에서 Setting > CI/CD를 선택합니다. 
 
 ![Untitled](src/Untitled%2024.png)
 
-Runners를 Expand한다. 
+<br>
+Runners를 Expand합니다. 
 
 ![Untitled](src/Untitled%2025.png)
 
-New project runner 오른쪽의 콤보버튼을 누르면, registration token과 runner 설치방법을 확인할 수 있다.
+<br>
+New project runner 오른쪽의 콤보버튼을 누르면, registration token과 runner 설치방법을 확인할 수 있습니다.
 
-token을 복사해 둔다. GR1348941aCfo_Lg5Pz7SRc1TooWX
+token을 복사해 둡니다.  
 
 ![Untitled](src/Untitled%2026.png)
-
-[https://hitec2022.github.io/docs/MinikubeCICD/minikube-cicd-automation.html](https://hitec2022.github.io/docs/MinikubeCICD/minikube-cicd-automation.html)
-
-[https://hihellloitland.tistory.com/63](https://hihellloitland.tistory.com/63)
-
-minikube registry의 포트포워드를 활성화 한다. 이미 되어있으면 skip한다. 
-
-docker 기반 registry를 구성한다. 이미지 되어있으면 skip한다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ docker run --name localhub -d --restart=always -p 8000:5000 registry:latest
-ab21f10bc6f5aab43b743df6cb0f54246fe00445ba0fc1883538f5051366cd03
-```
-
-registry insecure 구성후 도커를 재기동 한다. 
-
-```jsx
-[centos@k8sel-521149 ~]$ sudo vi vi /etc/docker/daemon.json
-{
-
-    "insecure-registries": ["0.0.0.0:8000"]
-
-}
-
-:wq
-
-[centos@k8sel-521149 ~]$ sudo systemctl restart docker
-```
-
-centos 로컬환경을 gitlab-runner 구동 환경으로 쓰겠다.
+ 
+ 
+<br>
+centos 로컬환경을 gitlab-runner 구동 환경으로 구성합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ sudo curl -L --output /usr/local/bin/gitlab-runner "https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-linux-amd64"
@@ -311,15 +297,18 @@ Configuration (with the authentication token) was saved in "/etc/gitlab-runner/c
 :wq
 ```
 
-왼쪽 메뉴 CI/CD > Runners > Expand 를 선택하면 생성된 runner가 보인다. 
+<br>
+왼쪽 메뉴 CI/CD > Runners > Expand 를 선택하면 생성된 runner가 보입니다. 
 
 ![Untitled](src/Untitled%2027.png)
 
-프로젝트로 가서 .gitlab-ci.yml을 작성한다.
+<br>
+프로젝트로 가서 .gitlab-ci.yml을 작성합니다.
 
 ![Untitled](src/Untitled%2028.png)
 
-.gitlab-ci.yml을 다음과 같이 작성한다. 
+<br>
+.gitlab-ci.yml을 다음과 같이 작성합니다. 
 
 ```jsx
 stages:          # List of stages for jobs, and their order of execution
@@ -354,13 +343,16 @@ deploy-job:      # This job runs in the deploy stage.
     - echo "Application image successfully deployed."
 ```
 
-Gitlab에 내장된 CI는 파이프라인 파일인 .gitlab-ci.yml을 커밋하자마자 gitlab-runner를 호출하여 동작한다. 
+<br>
+Gitlab에 내장된 CI는 파이프라인 파일인 .gitlab-ci.yml을 커밋하자마자 gitlab-runner를 호출하여 동작합니다. 
 
-빌드stage가 잘 진행된다. 
+<br>
+빌드stage가 잘 진행되는 것을 볼 수 있습니다. 
 
 ![Untitled](src/Untitled%2029.png)
 
-도커 이미지가 빌드되고 push되었다.
+<br>
+도커 이미지가 빌드되고 push된 결과입니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ curl http://0.0.0.0:8000/v2/_catalog
@@ -373,12 +365,10 @@ Gitlab에 내장된 CI는 파이프라인 파일인 .gitlab-ci.yml을 커밋하�
 
 ![Untitled](src/Untitled%2032.png)
 
-### 11. ArgoCD 구성
 
-[https://mycloudjourney.medium.com/argocd-series-how-to-install-argocd-on-a-single-node-minikube-cluster-1d3a46aaad20](https://mycloudjourney.medium.com/argocd-series-how-to-install-argocd-on-a-single-node-minikube-cluster-1d3a46aaad20)
+## 2. ArgoCD를 활용한 k8s CICD 구성
 
-[https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd)
-
+ <br>
 k8s에 argocd를 구성한다. 
 
 k8s에 구성 시 설치된 클러스터의 환경을 쉽게 읽어오며, 소스 리파지토리만 연계해 두면 PULL 방식으로 SYNC관리를 한다.
