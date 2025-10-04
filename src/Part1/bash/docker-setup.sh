@@ -13,7 +13,7 @@ sudo systemctl restart docker
 docker volume create pgdata
 docker volume inspect pgdata
 
-# postgres 컨테이너
+# PostgreSQL 컨테이너
 docker run --restart unless-stopped -p 5430:5432 --name testdb-postgres -v pgdata:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres -d postgres:16
 
 psql -h localhost -U postgres -p 5430
@@ -22,4 +22,16 @@ create database users;
 \i users.sql
 \q
 
+# Mongodb 데이터 볼륨 생성
+docker volume create mongodata
+docker volume inspect mongodata
 
+# Mongodb 컨테이너
+docker run --restart unless-stopped -p 27018:27017 --name testdb-mongo -v mongodata:/data/db -d mongo:7
+Unable to find image 'mongo:7' locally
+
+mongosh mongodb://localhost:27018
+use admin
+db.createUser({ user:'mongo', pwd: 'mongo', roles: ['root'] })
+use test
+show collections
