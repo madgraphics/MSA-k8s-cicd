@@ -252,6 +252,7 @@ postgres           1/1     1            1           8d
 users              3/3     3            3           8d~~
 ```
 
+<br>
 ## 2. 마이크로서비스 관리 앱 추가 작성 (manange app ← user app & movies app)
 
 <br>
@@ -828,9 +829,12 @@ manage 서비스를 call하여 유저서비스, 영화서비스를 조합한 결
 
 ![Untitled](src/Untitled%2064.png)
 
-### 15. POD 부하테스트 및 오토스케일링
+<br>
 
-Horizontal Pod Autoscaler 구성을 한다. 
+## 3. POD 부하테스트 및 오토스케일링
+
+<br>
+Horizontal Pod Autoscaler 구성을 합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ kubectl autoscale deployment manage --cpu-percent=30 --min=3 --max=5
@@ -847,7 +851,8 @@ NAME     REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
 manage   Deployment/manage   <unknown>/30%   3         5         3          3m57s
 ```
 
-다른 터미널을 열어 부하를 준다. CPU를 올리기 위해 백그라운드로 3개를 돌려준다.
+<br>
+다른 터미널을 열어 부하를 줍니다. CPU를 올리기 위해 백그라운드로 3개를 돌려줍니다.
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ ab -n 10000000000 -c 10 http://192.168.49.2:31576/v1/manage/hello &
@@ -881,7 +886,8 @@ Benchmarking 192.168.49.2 (be patient)
 [3]+  Killed                  ab -n 10000000000 -c 10 http://192.168.49.2:31576/swagger/
 ```
 
-오토스케일이 동작하여 POD가 증가하고, 부하를 중지하면 개수가 3개로 원복된다. 
+<br>
+오토스케일이 동작하여 POD가 증가하고, 부하를 중지하면 개수가 3개로 원복 됩니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl get hpa --watch
@@ -895,11 +901,13 @@ manage   Deployment/manage   112%/30%   3         5         5          25m
 manage   Deployment/manage   52%/30%    3         5         5          25m
 ```
 
-### 16. Minikube에서 external IP적용하기
+<br>
+## 4. Istio를 활용한 서비스 메시 배포
 
-[https://kyeongseo.tistory.com/entry/minikube-service-web에서-접속하는-방법](https://kyeongseo.tistory.com/entry/minikube-service-web%EC%97%90%EC%84%9C-%EC%A0%91%EC%86%8D%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
-
-터미널을 추가로 열어 minikube tunnel을 수행한다. 
+## 4.1 Minikube에서 external IP적용
+ 
+<br>
+터미널을 추가로 열어 minikube tunnel을 수행합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ minikube tunnel
@@ -916,7 +924,8 @@ Status:
 		loadbalancer emulator: no errors
 ```
 
-minikube LB에서 펜딩상태였던 External-IP가 설정이 된다. 
+<br>
+minikube LB에서 펜딩상태였던 External-IP가 설정이 됩니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ kubectl get all -A
@@ -944,9 +953,12 @@ From 192.168.49.2 icmp_seq=3 Redirect Host(New nexthop: 192.168.49.1)
 From 192.168.49.2 icmp_seq=5 Redirect Host(New nexthop: 192.168.49.1)
 ```
 
-### 17. Istio Ingress Gateway 적용하기
+<br>
+## 4.2 Istio Ingress Gateway 적용
 
-users-mesh.yaml, movies-mesh.yaml, manage-mesh.yaml을 작성하고 apply한다. 
+
+<br>
+users-mesh.yaml, movies-mesh.yaml, manage-mesh.yaml을 작성하고 apply합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi users-mesh.yaml
@@ -1104,7 +1116,8 @@ deployment.apps/manage created
 service/manage-service created
 ```
 
-istio를 사용하여 demo-gateway를 생성한다. 
+<br>
+istio를 사용하여 demo-gateway를 생성합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi demo-gateway.yaml
@@ -1134,7 +1147,9 @@ demo-gateway   19s
 
 ```
 
-istio virtualservice를 구성하여 user, movies, manage 서비스를 등록한다.
+
+<br>
+istio virtualservice를 구성하여 user, movies, manage 서비스를 등록합니다.
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi demo-virtualservices.yaml
@@ -1183,7 +1198,9 @@ NAME                  GATEWAYS           HOSTS   AGE
 demo-virtualservice   ["demo-gateway"]   ["*"]   17s
 ```
 
-istio ingress 접속 IP 포트를 확인하고, minikube tunnel 을 구동한다. 
+
+<br>
+istio ingress 접속 IP 포트를 확인하고, minikube tunnel 을 구동합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -1206,7 +1223,9 @@ Status:
 		loadbalancer emulator: no errors
 ```
 
-단일 istio ingress gateway로 API URI를 통합하여, API Gateway의 역할을 수행한다. 
+
+<br>
+단일 istio ingress gateway로 API URI가 통합되어, API Gateway의 역할을 수행합니다. 
 
 ![Untitled](src/Untitled%2065.png)
 
@@ -1214,7 +1233,9 @@ Status:
 
 ![Untitled](src/Untitled%2067.png)
 
-canary 배포를 테스트하기 위해 app.js를 수정하고, 컨테이너이미지를 빌드하여 minikube에 업로드한다. 
+
+<br>
+canary 배포를 테스트하기 위해 app.js를 수정하고, 컨테이너이미지를 빌드하여 minikube에 업로드 합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi app.js
@@ -1229,7 +1250,9 @@ app.get('/v1/manage/hello', (req, res) => {
 (msaapp) [centos@k8sel-521149 msaapp]$ minikube image load manage:v1.1
 ```
 
-manage-mesh_v1.1.yaml을 작성하여 apply한다.
+
+<br>
+manage-mesh_v1.1.yaml을 작성하여 apply합니다.
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi manage-mesh_v1.1.yaml
@@ -1283,7 +1306,9 @@ deployment.apps/manage-v1.1 created
 service/manage-service unchanged
 ```
 
-canary 배포를 적용한다. 
+
+<br>
+canary 배포를 적용합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi demo-destinationrule.yaml
@@ -1350,7 +1375,9 @@ spec:
 virtualservice.networking.istio.io/demo-virtualservice configured
 ```
 
-HTTP get call을 해보면 80:20으로 카나리배포가 동작한다. 
+
+<br>
+HTTP get call을 해보면 80:20으로 카나리배포가 동작합니다. 
 
 ![Untitled](src/Untitled%2068.png)
 
@@ -1362,15 +1389,21 @@ HTTP get call을 해보면 80:20으로 카나리배포가 동작한다.
 
 ![Untitled](src/Untitled%2072.png)
 
-### 18. 서비스 메시 모니터링
 
-원할한 모니터링을 위해 조회 워크로드를 수행한다. 
+<br>
+## 5. 서비스 메시 모니터링
+
+
+<br>
+원할한 모니터링을 위해 조회 워크로드를 수행합니다. 
 
 ```jsx
 while true;do curl http://10.109.61.0/v1/manage/; curl http://10.109.61.0/v1/manage/hello; sleep 5;done > /dev/null
 ```
 
-그라파나 포트포워드를 한후 브라우저에서 접속한다. 
+
+<br>
+그라파나 포트포워드를 한후 브라우저에서 접속합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ POD_NAME=$(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}')
@@ -1379,21 +1412,31 @@ while true;do curl http://10.109.61.0/v1/manage/; curl http://10.109.61.0/v1/man
 [centos@k8sel-521149 ~]$ Forwarding from 0.0.0.0:3000 -> 3000
 ```
 
-왼쪽 메뉴의 대시보드>istio에서 다양한 대시보드로 서비스 메시 모니터링이 가능하다.
 
-아래 화면은 워크로드 대시보드이다. 
+<br>
+왼쪽 메뉴의 대시보드>istio에서 다양한 대시보드로 서비스 메시 모니터링이 가능합니다.
+
+
+<br>
+아래 화면은 워크로드 대시보드입니다. 
 
 ![Untitled](src/Untitled%2073.png)
 
-Istio 서비스 대시보드 이다. 
+
+<br>
+Istio 서비스 대시보드 입니다. 
 
 ![Untitled](src/Untitled%2074.png)
 
-퍼포먼스 대시보드이다. 
+
+<br>
+퍼포먼스 대시보드 입니다. 
 
 ![Untitled](src/Untitled%2075.png)
 
-kiali를 포트포워드해서 모니터링한다. 
+
+<br>
+kiali를 포트포워드해서 모니터링 합니다. 
 
 ```jsx
 
@@ -1403,17 +1446,25 @@ kiali를 포트포워드해서 모니터링한다.
 [centos@k8sel-521149 ~]$ Forwarding from 0.0.0.0:20001 -> 20001
 ```
 
-[http://localhost:20001](http://localhost:20001) 로 접속했다. 
 
-네임스페이스별 정보가 보인다.
+<br>
+http://localhost:20001 로 접속 했습니다. 
+
+
+<br>
+네임스페이스별 정보가 보입니다.
 
 ![Untitled](src/Untitled%2076.png)
 
-왼쪽 메뉴 그래프메뉴의 모습이다. 서비스 트래픽이 보인다. 
+
+<br>
+왼쪽 메뉴 그래프메뉴의 모습입니다. 서비스 트래픽이 보입니다. 
 
 ![Untitled](src/Untitled%2077.png)
 
-예거를 포트포워드해서 모니터링한다.  
+
+<br>
+예거를 포트포워드해서 모니터링 합니다.  
 
 ```jsx
 [centos@k8sel-521149 ~]$ POD_NAME=$(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}')
@@ -1422,71 +1473,10 @@ kiali를 포트포워드해서 모니터링한다.
 [centos@k8sel-521149 ~]$ Forwarding from 0.0.0.0:16686 -> 16686
 ```
 
-웹브라우저 [http://localhost:16686](http://localhost:16686) 으로 확인한다. 
+
+<br>
+웹브라우저 http://localhost:16686 으로 확인 합니다. 
 
 ![Untitled](src/Untitled%2078.png)
 
 ![Untitled](src/Untitled%2079.png)
-
-### 기타. CentOS 8 Stream Boot Volume 확장하기
-
-OCI에서 boot volume을 60GB로 늘린 후 rescan을 작업한 후 확장을 시도한다. 
-
-```jsx
-sudo dd iflag=direct if=/dev/<DEVICE_NAME> of=/dev/null count=1
-
-echo "1" | sudo tee /sys/class/block/<DEVICE_NAME>/device/rescan
-```
-
-lv확장한다. 
-
-```jsx
-[root@k8sel-521149 ~]# growpart /dev/sda 3
-CHANGED: partition=3 start=2304000 old: size=81920000 end=84223999 new: size=123525087 end=125829086
-
-[root@k8sel-521149 ~]# pvresize /dev/sda3
-  Physical volume "/dev/sda3" changed
-  1 physical volume(s) resized or updated / 0 physical volume(s) not resized
-
-[root@k8sel-521149 ~]# vgs
-  VG           #PV #LV #SN Attr   VSize   VFree  
-  centosvolume   1   1   0 wz--n- <58.90g <19.84g
-
-[root@k8sel-521149 ~]# lvextend -L +19G /dev/mapper/centosvolume-root
-  Size of logical volume centosvolume/root changed from <39.06 GiB (9999 extents) to <58.06 GiB (14863 extents).
-  Logical volume centosvolume/root successfully resized.
-
-[root@k8sel-521149 ~]# xfs_growfs /dev/mapper/centosvolume-root
-meta-data=/dev/mapper/centosvolume-root isize=512    agcount=4, agsize=2559744 blks
-         =                       sectsz=4096  attr=2, projid32bit=1
-         =                       crc=1        finobt=1, sparse=1, rmapbt=0
-         =                       reflink=1    bigtime=0 inobtcount=0
-data     =                       bsize=4096   blocks=10238976, imaxpct=25
-         =                       sunit=0      swidth=0 blks
-naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
-log      =internal log           bsize=4096   blocks=4999, version=2
-         =                       sectsz=4096  sunit=1 blks, lazy-count=1
-realtime =none                   extsz=4096   blocks=0, rtextents=0
-data blocks changed from 10238976 to 15219712
-
-[root@k8sel-521149 ~]# lsblk
-NAME                  MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-sda                     8:0    0   60G  0 disk 
-├─sda1                  8:1    0  100M  0 part /boot/efi
-├─sda2                  8:2    0    1G  0 part /boot
-└─sda3                  8:3    0 58.9G  0 part 
-  └─centosvolume-root 253:0    0 58.1G  0 lvm  /
-
-[root@k8sel-521149 ~]# df -h
-Filesystem                     Size  Used Avail Use% Mounted on
-devtmpfs                        32G     0   32G   0% /dev
-tmpfs                           32G     0   32G   0% /dev/shm
-tmpfs                           32G   33M   32G   1% /run
-tmpfs                           32G     0   32G   0% /sys/fs/cgroup
-/dev/mapper/centosvolume-root   59G   40G   19G  68% /
-/dev/sda2                     1014M  565M  450M  56% /boot
-/dev/sda1                      100M  7.3M   93M   8% /boot/efi
-tmpfs                          6.3G     0  6.3G   0% /run/user/987
-tmpfs                          6.3G  4.0K  6.3G   1% /run/user/1000
-
-```
