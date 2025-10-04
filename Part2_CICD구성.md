@@ -5,7 +5,7 @@
 ## 1. gitlab CI 구성
 
 <br>
-docker 기반으로 gitlab을 구성하겠다.
+docker 기반으로 gitlab을 구성합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ mkdir -p ~/gitlab
@@ -20,7 +20,6 @@ export GITLAB_HOME=~/gitlab
 [centos@k8sel-521149 ~]$ echo $GITLAB_HOME
 /home/centos/gitlab
 
-~~# 2424:2424를 수정해서 2424:22로 바꿈. 포트 적용이 안된다~~
 [centos@k8sel-521149 ~]$ docker run --detach \
 >   --hostname gitlab.example.com \
 >   --env GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab.example.com:8929'; gitlab_rails['gitlab_shell_ssh_port'] = 2424" \
@@ -56,21 +55,23 @@ gitlab_rails['gitlab_shell_ssh_port'] = 2424
 
 root@gitlab:/# gitlab-ctl reconfigure
 ```
-
-root 패스워드를 복사해둔다.
+<br>
+root 패스워드를 복사해둡니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 Password: gU7dsPsScJqdx8bBwjSAMe0MuK3uHUmAM2pFII1cggY=
 ```
 
-[http://localhost:8929](http://localhost:8929)로 접속한다. 
+<br>
+http://localhost:8929로 접속합니다. 
 
-root/<위에서 복사한 패스워드>를 입력한다. 
+root/<위에서 복사한 패스워드>를 입력합니다. 
 
 ![Untitled](src/Untitled%2015.png)
 
-로그인이 완료되었다.
+<br>
+로그인이 완료 되었습니다.
 
 ![Untitled](src/Untitled%2016.png)
 
