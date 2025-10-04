@@ -10,15 +10,15 @@ centos8 이미지를 사용하는 OCI IaaS VM을 생성하여 테스트 함.
 
 테스트한 Image 캡쳐화면이다.
 
-![Untitled](src/%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled.png)
+![Untitled](src/Untitled.png)
 
  
 
 테스트한 인스턴스 Shape 캡쳐화면이다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%201.png)
+![Untitled](src/Untitled%201.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%202.png)
+![Untitled](src/Untitled%202.png)
 
 **처음에는 위의 셋업으로 만들었으나, 모든 테스트 진행한 결과 OCI IaaS VM에서 Boot Volume은 50~60G가 필요함 (40GB도 부족함)**
 
@@ -26,19 +26,19 @@ IaaS를 구성한다.
 
 OCI콘솔에서 Compute > Instances > Create Instance 를 선택한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%203.png)
+![Untitled](src/Untitled%203.png)
 
 Image > Change Image 해서 CentOS 8 Stream을 선택한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%204.png)
+![Untitled](src/Untitled%204.png)
 
 Shape은 4Core, Mem 64GB로 한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%205.png)
+![Untitled](src/Untitled%205.png)
 
 Boot Volume을 60GB정도로 설정한 후 VM을 생성한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%206.png)
+![Untitled](src/Untitled%206.png)
 
 ### 2. 목표
 
@@ -172,19 +172,19 @@ udp6       0      0 ::1:323                 :::*                                
 
 OCI 시큐리티리스트에서 5901을 오픈한 후 접속한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%207.png)
+![Untitled](src/Untitled%207.png)
 
 패스워드 : Vngkgk12#$
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%208.png)
+![Untitled](src/Untitled%208.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%209.png)
+![Untitled](src/Untitled%209.png)
 
 ### 4. DB 구성 (postgreSQL, MongoDB)
 
 참조 URL : [https://www.postgresql.org/download/linux/redhat/](https://www.postgresql.org/download/linux/redhat/)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2010.png)
+![Untitled](src/Untitled%2010.png)
 
 postgreSQL 16을  설치한다.
 
@@ -646,11 +646,11 @@ if __name__ == "__main__":
 
 한국영상자료원 KMDB 영화리스트
 
-[movies.json](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/movies.json)
+[movies.json](src/movies.json)
 
 ### 7. DB docker to python flask앱 docker 연계
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2011.png)
+![Untitled](src/Untitled%2011.png)
 
 docker hub에 있는 이미지를 기반으로 nginx를 배포한다.
 
@@ -700,7 +700,7 @@ exit
 
 VM내 fireforx를 기동하고 [http://localhost:8080](http://localhost:8080) 에 접속하여 nginx 웰컴페이지에 접속할 수 있다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2012.png)
+![Untitled](src/Untitled%2012.png)
 
 docker logs로 컨테이너의 stdout과 stderr 내용을 볼 수 있다. 
 
@@ -859,7 +859,7 @@ dfb24c89038f   webserver                             "/docker-entrypoint.…"   
 
 웹브라우저에서 접속한 화면이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2013.png)
+![Untitled](src/Untitled%2013.png)
 
 빌드한 docker image를 push했다. 
 
@@ -1245,7 +1245,7 @@ pg_commit_ts  pg_ident.conf  pg_notify	   pg_snapshots  pg_subtrans  PG_VERSION 
 
 ### 8. minikube 구성
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2014.png)
+![Untitled](src/Untitled%2014.png)
 
 쿠버네티스의 싱글 노드 테스트 환경을 구현하기 위해 minikube를 설치한다. 
 
@@ -2388,36 +2388,36 @@ Password: gU7dsPsScJqdx8bBwjSAMe0MuK3uHUmAM2pFII1cggY=
 
 root/<위에서 복사한 패스워드>를 입력한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2015.png)
+![Untitled](src/Untitled%2015.png)
 
 로그인이 완료되었다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2016.png)
+![Untitled](src/Untitled%2016.png)
 
 왼쪽 메뉴(Admin Area)를 띄워서, Admin > Users 를 선택한다. 
 
 New user 를 클릭한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2017.png)
+![Untitled](src/Untitled%2017.png)
 
 - 다음과 같이 입력하여 생성한다.
     - Name : devadm
     - Username : devadm
     - Email : <유저 email>
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2018.png)
+![Untitled](src/Untitled%2018.png)
 
 유저 생성이 완료되었다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2019.png)
+![Untitled](src/Untitled%2019.png)
 
 devadm 유저에서 오른쪽의 Edit 버튼을 눌러 패스워드를 설정해준다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2020.png)
+![Untitled](src/Untitled%2020.png)
 
 root를 로그아웃하고, devadm으로 로그인한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2021.png)
+![Untitled](src/Untitled%2021.png)
 
 VM로컬의 소스 디렉토리로 이동한다. 
 
@@ -2535,23 +2535,23 @@ branch 'master' set up to track 'origin/master'.
 
 gitlab 웹브라우저를 리로드하면 프로젝트에 소스가 업로드된 것을 볼수 있다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2022.png)
+![Untitled](src/Untitled%2022.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2023.png)
+![Untitled](src/Untitled%2023.png)
 
 왼편메뉴에서 Setting > CI/CD를 선택한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2024.png)
+![Untitled](src/Untitled%2024.png)
 
 Runners를 Expand한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2025.png)
+![Untitled](src/Untitled%2025.png)
 
 New project runner 오른쪽의 콤보버튼을 누르면, registration token과 runner 설치방법을 확인할 수 있다.
 
 token을 복사해 둔다. GR1348941aCfo_Lg5Pz7SRc1TooWX
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2026.png)
+![Untitled](src/Untitled%2026.png)
 
 [https://hitec2022.github.io/docs/MinikubeCICD/minikube-cicd-automation.html](https://hitec2022.github.io/docs/MinikubeCICD/minikube-cicd-automation.html)
 
@@ -2632,11 +2632,11 @@ Configuration (with the authentication token) was saved in "/etc/gitlab-runner/c
 
 왼쪽 메뉴 CI/CD > Runners > Expand 를 선택하면 생성된 runner가 보인다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2027.png)
+![Untitled](src/Untitled%2027.png)
 
 프로젝트로 가서 .gitlab-ci.yml을 작성한다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2028.png)
+![Untitled](src/Untitled%2028.png)
 
 .gitlab-ci.yml을 다음과 같이 작성한다. 
 
@@ -2677,7 +2677,7 @@ Gitlab에 내장된 CI는 파이프라인 파일인 .gitlab-ci.yml을 커밋하�
 
 빌드stage가 잘 진행된다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2029.png)
+![Untitled](src/Untitled%2029.png)
 
 도커 이미지가 빌드되고 push되었다.
 
@@ -2686,11 +2686,11 @@ Gitlab에 내장된 CI는 파이프라인 파일인 .gitlab-ci.yml을 커밋하�
 {"repositories":["docker","hello-world","movies","users"]}
 ```
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2030.png)
+![Untitled](src/Untitled%2030.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2031.png)
+![Untitled](src/Untitled%2031.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2032.png)
+![Untitled](src/Untitled%2032.png)
 
 ### 11. ArgoCD 구성
 
@@ -2788,21 +2788,21 @@ Forwarding from [::1]:8080 -> 8080
 - Username : admin
 - Paaword : <위에서 확인한 패스워드>
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2033.png)
+![Untitled](src/Untitled%2033.png)
 
 로그인이 되었다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2034.png)
+![Untitled](src/Untitled%2034.png)
 
 왼쪽 메뉴에서 User Info > UPDATE PASSWORD 를 선택한다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2035.png)
+![Untitled](src/Untitled%2035.png)
 
 admin 패스워드를 업데이트 한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2036.png)
+![Untitled](src/Untitled%2036.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2037.png)
+![Untitled](src/Untitled%2037.png)
 
 [~~https://velog.io/@wickedev/Gitlab-CICD-튜토리얼-bljzphditt~~](https://velog.io/@wickedev/Gitlab-CICD-%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC-bljzphditt)
 
@@ -2870,11 +2870,11 @@ apps   Deployment  default    guestbook-ui  OutOfSync  Missing
 
 gusetbook app이 생성되었다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2038.png)
+![Untitled](src/Untitled%2038.png)
 
 sync버튼을 누르고, synchronize를 선택한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2039.png)
+![Untitled](src/Untitled%2039.png)
 
 k8s에 배포가 되고있다. 
 
@@ -2897,11 +2897,11 @@ default       pod/movies-744b4586c4-s452w                            1/1     Run
 
 sync가 완료되었다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2040.png)
+![Untitled](src/Untitled%2040.png)
 
 guestbook을 클릭하여 상세 배포내용을 볼수 있다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2041.png)
+![Untitled](src/Untitled%2041.png)
 
 샘플 app을 포트포워드 한다. 
 
@@ -2914,13 +2914,13 @@ Forwarding from [::1]:8880 -> 80
 
 브라우저로 접속한 결과이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2042.png)
+![Untitled](src/Untitled%2042.png)
 
 ### 12. ArgoCD and Gitlab 연계
 
 Settings > Repositories에서 UI방식으로 생성할 수 있다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2043.png)
+![Untitled](src/Untitled%2043.png)
 
 리파지토리 연동은 HTTPS, SSH방식이 가능하다.
 
@@ -2955,19 +2955,19 @@ argocd  argocd.pub
 
 gitlab에 가서, 유저메뉴에서 edit profile을 선택한다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2044.png)
+![Untitled](src/Untitled%2044.png)
 
 왼쪽의 SSH Keys를 선택한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2045.png)
+![Untitled](src/Untitled%2045.png)
 
 Add keys를 선택후, 만들어둔 [argocd.pub](http://argocd.pub) 파일의 내용을 붙여넣기한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2046.png)
+![Untitled](src/Untitled%2046.png)
 
 등록이 완료되었다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2047.png)
+![Untitled](src/Untitled%2047.png)
 
 argocd cli로 리파지토리를 등록한다.
 
@@ -2980,7 +2980,7 @@ Repository 'ssh://git@10.0.0.13:2424/devadm/msaapp.git' added
 
 Settings > Repositories에 리파지토리가 생겼다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2048.png)
+![Untitled](src/Untitled%2048.png)
 
 argocd 어플리케이션을 생성하겠다.
 
@@ -2999,27 +2999,27 @@ argocd 어플리케이션을 생성하겠다.
     - Namespace : default
     
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2049.png)
+![Untitled](src/Untitled%2049.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2050.png)
+![Untitled](src/Untitled%2050.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2051.png)
+![Untitled](src/Untitled%2051.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2052.png)
+![Untitled](src/Untitled%2052.png)
 
 앱이 생성되었다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2053.png)
+![Untitled](src/Untitled%2053.png)
 
 user app, moviews app, nginx 3개의 yaml을 sync하는 argocd앱이다. 
 
 nginx는 배포가 안된 상태인데, SYNC를 수행해 본다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2054.png)
+![Untitled](src/Untitled%2054.png)
 
 nginx도 배포되었고, Sync가 완료되었다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2055.png)
+![Untitled](src/Untitled%2055.png)
 
 ### 13. Istio와 서비스 메시 모니터링도구 구성
 
@@ -3163,7 +3163,7 @@ service/grafana                ClusterIP      10.108.243.114   <none>        300
 [centos@k8sel-521149 ~]$ Forwarding from 0.0.0.0:3000 -> 3000
 ```
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2056.png)
+![Untitled](src/Untitled%2056.png)
 
 $ kubectl delete -f [https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/kiali.yaml](https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/kiali.yaml)
 
@@ -3199,7 +3199,7 @@ service/kiali   ClusterIP   10.105.82.182   <none>        20001/TCP,9090/TCP   4
 
 [http://localhost:20001](http://localhost:20001) 로 접속했다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2057.png)
+![Untitled](src/Untitled%2057.png)
 
 예거를 구성한다. 
 
@@ -3229,7 +3229,7 @@ service/tracing            ClusterIP   10.109.43.80    <none>        80/TCP,1668
 
 웹브라우저 [http://localhost:16686](http://localhost:16686) 으로 확인한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2058.png)
+![Untitled](src/Untitled%2058.png)
 
 k8s autoscaling 및 node 자원 모니터링을 위한 metric server를 설치한다. 
 
@@ -3704,15 +3704,15 @@ Hello World!
 
 매니저서비스 API swagger 화면이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2059.png)
+![Untitled](src/Untitled%2059.png)
 
 영화 관리 API swagger 이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2060.png)
+![Untitled](src/Untitled%2060.png)
 
 사용자 관리 API swagger 이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2061.png)
+![Untitled](src/Untitled%2061.png)
 
 manage서비스 docker 이미지를 빌드한다. 
 
@@ -3901,15 +3901,15 @@ users-68468f8bc7-tltbm              1/1     Running   14 (5h25m ago)   16d
 
 manage 서비스 스웨거에 접속했다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2062.png)
+![Untitled](src/Untitled%2062.png)
 
 manage 서비스 hello를 호출했다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2063.png)
+![Untitled](src/Untitled%2063.png)
 
 manage 서비스를 call하여 유저서비스, 영화서비스를 조합한 결과를 반환했다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2064.png)
+![Untitled](src/Untitled%2064.png)
 
 ### 15. POD 부하테스트 및 오토스케일링
 
@@ -4291,11 +4291,11 @@ Status:
 
 단일 istio ingress gateway로 API URI를 통합하여, API Gateway의 역할을 수행한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2065.png)
+![Untitled](src/Untitled%2065.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2066.png)
+![Untitled](src/Untitled%2066.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2067.png)
+![Untitled](src/Untitled%2067.png)
 
 canary 배포를 테스트하기 위해 app.js를 수정하고, 컨테이너이미지를 빌드하여 minikube에 업로드한다. 
 
@@ -4435,15 +4435,15 @@ virtualservice.networking.istio.io/demo-virtualservice configured
 
 HTTP get call을 해보면 80:20으로 카나리배포가 동작한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2068.png)
+![Untitled](src/Untitled%2068.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2069.png)
+![Untitled](src/Untitled%2069.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2070.png)
+![Untitled](src/Untitled%2070.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2071.png)
+![Untitled](src/Untitled%2071.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2072.png)
+![Untitled](src/Untitled%2072.png)
 
 ### 18. 서비스 메시 모니터링
 
@@ -4466,15 +4466,15 @@ while true;do curl http://10.109.61.0/v1/manage/; curl http://10.109.61.0/v1/man
 
 아래 화면은 워크로드 대시보드이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2073.png)
+![Untitled](src/Untitled%2073.png)
 
 Istio 서비스 대시보드 이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2074.png)
+![Untitled](src/Untitled%2074.png)
 
 퍼포먼스 대시보드이다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2075.png)
+![Untitled](src/Untitled%2075.png)
 
 kiali를 포트포워드해서 모니터링한다. 
 
@@ -4490,11 +4490,11 @@ kiali를 포트포워드해서 모니터링한다.
 
 네임스페이스별 정보가 보인다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2076.png)
+![Untitled](src/Untitled%2076.png)
 
 왼쪽 메뉴 그래프메뉴의 모습이다. 서비스 트래픽이 보인다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2077.png)
+![Untitled](src/Untitled%2077.png)
 
 예거를 포트포워드해서 모니터링한다.  
 
@@ -4507,9 +4507,9 @@ kiali를 포트포워드해서 모니터링한다.
 
 웹브라우저 [http://localhost:16686](http://localhost:16686) 으로 확인한다. 
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2078.png)
+![Untitled](src/Untitled%2078.png)
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled%2079.png)
+![Untitled](src/Untitled%2079.png)
 
 ### 기타. CentOS 8 Stream Boot Volume 확장하기
 
