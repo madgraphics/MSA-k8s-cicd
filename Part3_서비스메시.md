@@ -957,8 +957,8 @@ From 192.168.49.2 icmp_seq=5 Redirect Host(New nexthop: 192.168.49.1)
 ```
 
 <br>
-## 4.2 Istio Ingress Gateway 적용
 
+## 4.2 Istio Ingress Gateway 적용
 
 <br>
 users-mesh.yaml, movies-mesh.yaml, manage-mesh.yaml을 작성하고 apply합니다. 
@@ -1394,6 +1394,7 @@ HTTP get call을 해보면 80:20으로 카나리배포가 동작합니다.
 
 
 <br>
+
 ## 5. 서비스 메시 모니터링
 
 
