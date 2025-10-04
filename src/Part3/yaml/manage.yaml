@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: manage
+  name: manage
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: manage
+  template:
+    metadata:
+      labels:
+        app: manage
+    spec:
+      containers:
+      - image: docker.io/library/manage:v1.0
+        imagePullPolicy: IfNotPresent
+        name: manage
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: manage
+  name: manage-service
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+  selector:
+    app: manage
