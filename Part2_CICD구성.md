@@ -150,8 +150,7 @@ Initialized empty Git repository in /home/centos/msaapp/.git/
 
 (msaapp) [centos@k8sel-521149 msaapp]$ git commit -m "init .gitignore"
 [master (root-commit) a9f720f] init .gitignore
- Committer: devadm <centos@k8sel-521149.sub04151622050.ocidemo.oraclevcn.com>
-Your name and email address were configured automatically based
+ Your name and email address were configured automatically based
 on your username and hostname. Please check that they are accurate.
 You can suppress this message by setting them explicitly:
 
