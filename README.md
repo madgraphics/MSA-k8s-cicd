@@ -1,4 +1,4 @@
-# [오픈소스] making inf(new)
+# 마이크로서비스 & 서비스메시 아키텍처
 
 ### 1. 환경
 
@@ -10,7 +10,7 @@ centos8 이미지를 사용하는 OCI IaaS VM을 생성하여 테스트 함.
 
 테스트한 Image 캡쳐화면이다.
 
-![Untitled](%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled.png)
+![Untitled](src/%5B%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%5D%20making%20inf(new)%20c75837dfb166445691774260bae7f0d3/Untitled.png)
 
  
 
