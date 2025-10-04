@@ -471,7 +471,7 @@ class book(Resource):
             mongo_result = str(json.dumps(list(mongo_objects), ensure_ascii=False, default=str))
 
         except Exception as e:
-            logger.error("oracle db error : could not fecth data")
+            logger.error("mongodb db error : could not fecth data")
             logger.error(e)
         logger.info("success : querying data succeeded.")
         return Response(json.dumps(mongo_result, ensure_ascii=False).encode('utf-8'),  status=200, content_type='application/json; charset=utf-8')
@@ -1173,11 +1173,6 @@ For mongosh info see: https://docs.mongodb.com/mongodb-shell/
 ------
 
 test> exit
-
-# cat /etc/resolv.conf
-nameserver 10.96.0.10
-search default.svc.cluster.local svc.cluster.local cluster.local ocidemo.oraclevcn.com sub04151622050.ocidemo.oraclevcn.com
-options ndots:5
 
 # mongosh mongodb://mongodb-service.default.svc.cluster.local:27017 -u mongo -p
 Enter password: *
