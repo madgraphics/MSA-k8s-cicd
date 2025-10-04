@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: demo-destinationrule
+spec:
+  host: manage-service
+  subsets:
+  - name: base
+    labels:
+      version: v1.0
+  - name: canary
+    labels:
+      version: v1.1
