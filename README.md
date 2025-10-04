@@ -1051,7 +1051,7 @@ Handling connection for 8000
 ```
 
 <br><br>
-### 5. k8s 플랫폼에 샘플 앱 배포
+## 6. k8s 플랫폼에 샘플 앱 배포
 
 <br>
 mongodb.yaml을 작성한후 k8s에 배포합니다. 
