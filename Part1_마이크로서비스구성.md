@@ -5,8 +5,6 @@
 
 <br>
 
-참조 URL : [https://rahul-official-150.medium.com/docker-inside-a-docker-container-e7ae144464f0](https://rahul-official-150.medium.com/docker-inside-a-docker-container-e7ae144464f0)
-
 실습환경을 위한 가상 환경을 구현합니다.
 
 centos 유저를 추가합니다.
