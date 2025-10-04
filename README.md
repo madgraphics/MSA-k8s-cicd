@@ -1,6 +1,9 @@
 # 마이크로서비스 & 서비스메시 아키텍처
+<br><br>
 
 ### 1. CentOS Stream 8 x86환경 구성
+
+<br>
 
 참조 URL : [https://rahul-official-150.medium.com/docker-inside-a-docker-container-e7ae144464f0](https://rahul-official-150.medium.com/docker-inside-a-docker-container-e7ae144464f0)
 
@@ -19,7 +22,7 @@ centos 유저를 추가합니다.
 
 [root@k8sel-521149 ~]# sudo su - centos
 ```
-
+<br>
 도커를 설치합니다.
 
 ```jsx
@@ -31,7 +34,7 @@ centos 유저를 추가합니다.
 
 [centos@k8sel-521149 ~]$ sudo systemctl start docker.service
 ```
-
+<br>
 non Root 유저가 docker 커맨드를 수행하기 위한 작업을 수행합니다.
 
 ```jsx
@@ -45,7 +48,7 @@ non Root 유저가 docker 커맨드를 수행하기 위한 작업을 수행합�
 
 [centos@k8sel-521149 ~]$ docker ps
 ```
-
+<br>
 “Server with GUI” 그룹 인스톨을 셋업하여 GUI환경을 구성합니다.
 
 ```jsx
@@ -104,15 +107,18 @@ udp6       0      0 ::1:323                 :::*                                
 
 [centos@k8sel-521149 ~]$ sudo firewall-cmd --reload
 ```
-
+<br>
 5901 포트를 오픈한 후 접속합니다.
 
 ![Untitled](src/Untitled%207.png)
 
 ![Untitled](src/Untitled%208.png)
 
+<br><br>
 
 ### 2. 개발 DB 구성 (postgreSQL, MongoDB)
+
+<br>
 
 참조 URL : [https://www.postgresql.org/download/linux/redhat/](https://www.postgresql.org/download/linux/redhat/)
 
