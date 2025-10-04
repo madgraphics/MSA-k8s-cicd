@@ -38,3 +38,33 @@ docker push localhost:8000/movies:v1.0
 
 # 최종 레지스트리 확인
 curl http://localhost:8000/v2/_catalog
+
+# yaml 배포
+kubectl apply -f  mongodb.yaml
+kubectl exec pod/mongodb-6f4797467-j5fm4 -it -- bin/sh
+mongosh
+use admin
+db.createUser({ user:'mongo', pwd: 'mongo', roles: ['root'] })
+exit
+
+kubectl apply -f postgres.yaml
+kubectl exec pod/postgres-76fb566885-rdfp2 -it -- /bin/sh
+su - postgres
+psql
+create database users;
+\c users
+\i users.sql
+\q
+
+# minikube image load
+minikube image load movies:v1.0
+minikube image load users:v1.0
+
+# yaml app 배포
+kubectl apply -f users.yaml
+kubectl apply -f movies.yaml
+kubectl get all -A
+
+#curl call
+curl http://192.168.49.2:32281/v1/movies/
+curl http://192.168.49.2:32281/v1/movies/hello
