@@ -2,7 +2,8 @@
 
 ## 1. Istio와 서비스 메시 모니터링도구 구성
 
-Istio를 설치한다. 
+<br>
+Istio를 설치합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ curl -L https://istio.io/downloadIstio | sh -
@@ -62,7 +63,8 @@ This will install the Istio 1.20.2 "default" profile (with components: Istio cor
 Made this installation the default for injection and validation.
 ```
 
-istio가 배포된 내용을 확인한다.
+<br>
+istio가 배포된 내용을 확인합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl get ns
@@ -97,7 +99,8 @@ kube-public       Active   30d
 kube-system       Active   30d
 ```
 
-istio기반 서비스 모니터링 도구를 구성하겠다.
+<br>
+istio기반 서비스 모니터링 도구를 구성합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/prometheus.yaml
@@ -133,7 +136,8 @@ pod/grafana-545465bf4c-b9jnq                1/1     Running   0          27s
 service/grafana                ClusterIP      10.108.243.114   <none>        3000/TCP                                     27s
 ```
 
-포트포워드를 한후 브라우저에서 접속한다. 
+<br>
+포트포워드를 한후 브라우저에서 접속해 봅니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ POD_NAME=$(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}')
@@ -144,9 +148,9 @@ service/grafana                ClusterIP      10.108.243.114   <none>        300
 
 ![Untitled](src/Untitled%2056.png)
 
-$ kubectl delete -f [https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/kiali.yaml](https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/kiali.yaml)
 
-istio기반 kiali를 구성한다. 
+<br>
+istio기반 kiali를 구성합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/kiali.yaml
@@ -176,11 +180,13 @@ service/kiali   ClusterIP   10.105.82.182   <none>        20001/TCP,9090/TCP   4
 [centos@k8sel-521149 ~]$ Forwarding from 0.0.0.0:20001 -> 20001
 ```
 
-[http://localhost:20001](http://localhost:20001) 로 접속했다. 
+<br>
+포트포워드를 한후 브라우저에서 접속해 봅니다. 
 
 ![Untitled](src/Untitled%2057.png)
 
-예거를 구성한다. 
+<br>
+예거를 구성합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/jaeger.yaml
@@ -205,12 +211,13 @@ service/tracing            ClusterIP   10.109.43.80    <none>        80/TCP,1668
 [3] 257298
 [centos@k8sel-521149 ~]$ Forwarding from 0.0.0.0:16686 -> 16686
 ```
-
-웹브라우저 [http://localhost:16686](http://localhost:16686) 으로 확인한다. 
+<br>
+웹브라우저 http://localhost:16686 으로 확인합니다. 
 
 ![Untitled](src/Untitled%2058.png)
 
-k8s autoscaling 및 node 자원 모니터링을 위한 metric server를 설치한다. 
+<br>
+k8s autoscaling 및 node 자원 모니터링을 위한 metric server를 설치합니다. 
 
 ```jsx
 
@@ -245,9 +252,10 @@ postgres           1/1     1            1           8d
 users              3/3     3            3           8d~~
 ```
 
-### 14. 마이크로서비스 관리자 앱 작성 (manange app ← user app & movies app)
+## 2. 마이크로서비스 관리 앱 추가 작성 (manange app ← user app & movies app)
 
-NodeJS를 설치한다. 
+<br>
+NodeJS를 설치합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ msaapp
@@ -308,91 +316,8 @@ v10.23.1
 6.14.10
 ```
 
-[https://docs.nestjs.com/](https://docs.nestjs.com/)
-
-Hello World 예제를 작성해 본다. NodeJS의 express 프레임워크를 쓰겠다. 
-
-```jsx
-(msaapp) [centos@k8sel-521149 msaapp]$ npm init -y
-Wrote to /home/centos/msaapp/package.json:
-
-{
-  "name": "msaapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "got": "^14.2.0",
-    "request": "^2.88.2"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.example.com:8929/devadm/msa"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
-}
-
-(msaapp) [centos@k8sel-521149 msaapp]$ npm list express
-/home/centos/msaapp
-└── (empty)
-
-(msaapp) [centos@k8sel-521149 msaapp]$ npm install express
-npm WARN saveError ENOENT: no such file or directory, open '/home/centos/msaapp/package.json'
-npm notice created a lockfile as package-lock.json. You should commit this file.
-npm WARN enoent ENOENT: no such file or directory, open '/home/centos/msaapp/package.json'
-npm WARN msaapp No description
-npm WARN msaapp No repository field.
-npm WARN msaapp No README data
-npm WARN msaapp No license field.
-
-+ express@4.18.2
-added 64 packages from 41 contributors and audited 64 packages in 2.672s
-
-12 packages are looking for funding
-  run `npm fund` for details
-
-found 0 vulnerabilities
-
-(msaapp) [centos@k8sel-521149 msaapp]$ vi app.js
-
-const express = require('express');
-const app = express();
-const port = 3000;
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  console.log(`app listening port : ${port}`);
-});
-
-:wq
-
-(msaapp) [centos@k8sel-521149 msaapp]$ node app.js &
-[1] 168354
-(msaapp) [centos@k8sel-521149 msaapp]$ app listening port : 3000
-
-(msaapp) [centos@k8sel-521149 msaapp]$ curl http://localhost:3000
-Hello World! 
-
-(msaapp) [centos@k8sel-521149 msaapp]$ ps -ef | grep node
-(msaapp) [centos@k8sel-521149 msaapp]$ kill -9 168354
-(msaapp) [centos@k8sel-521149 msaapp]$ 
-[1]+  Killed                  node app.js
-```
-
-minikube에 배포된 유저 및 영화 서비스 endpoint를 확인한다. 
+<br>
+minikube에 배포된 유저 및 영화 마이크서비스 endpoint를 확인합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ kubectl get svc 
@@ -411,19 +336,22 @@ users-service      NodePort    10.104.195.135   <none>        5000:31971/TCP   1
 [[{"user_id": 4, "user_name": "김성현", "user_agent": "Opera/9.20.(Windows NT 10.0; lt-LT) Presto/2.9.168 Version/11.00", "last_conn_date": "2024-01-28T13:39:48.232142"}], [{"user_id": 3, "user_name": "권성수", "user_agent": "Mozilla/5.0 (Android 11; Mobile; rv:24.0) Gecko/24.0 Firefox/24.0", "last_conn_date": "2024-01-28T13:39:08.934672"}], [{"user_id": 2, "user_name": "이현준", "user_agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/534.27.3 (KHTML, like Gecko) Version/5.0.3 Safari/534.27.3", "last_conn_date": "2024-01-28T13:39:08.210067"}], [{"user_id": 1, "user_name": "엄하은", "user_agent": "Mozilla/5.0 (Windows NT 6.2; om-ET; rv:1.9.0.20) Gecko/5009-09-11 23:10:09.665222 Firefox/3.6.13", "last_conn_date": "2024-01-28T13:39:06.118517"}]](msaapp) [centos@k8sel-521149 msaapp]$
 ```
 
-manage서비스를 만든다. 
+<br>
+manage서비스를 만듭니다. 
 
-NodeJS exporess 및 swagger-autogen을 적용하고, 기존 flask기반 user, movies 마이크로서비스를 call하는 관리 역할의 앱 이다. 
+<br>
+NodeJS exporess 및 swagger-autogen을 적용하고, 기존 flask기반 user, movies 마이크로서비스를 call하는 관리 역할의 앱 입니다. 
 
-DB는 연계하지 않고, http request만 수행하는 역할의 앱이다.  
+DB는 연계하지 않고, 각 마이크로서비스로 http request만 수행합니다.  
 
-REST API spec 문서를 자동 생성할 것이므로 swagger autogen 라이브러리를 설치한다.
+REST API spec 문서를 자동 생성할 것이므로 swagger autogen 라이브러리를 설치합니다.
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ npm install swagger-jsdoc swagger-ui-express swagger-autogen request
 ```
 
-app.js에서 user와 movies 앱을 call하도록 작성한다. 
+<br>
+app.js에서 user와 movies 앱을 call하도록 작성합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi app.js
@@ -463,7 +391,8 @@ app.listen(port, () => {
 app listening port : 3000
 ```
 
-다른 터미널에서 http call을 수행해본다.
+<br>
+다른 터미널에서 http call을 수행해 봅니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ curl http://localhost:3000/v1/manage/hello
@@ -473,7 +402,8 @@ Hello World!
 "[[{\"user_id\": 4, \"user_name\": \"김성현\", \"user_agent\": \"Opera/9.20.(Windows NT 10.0; lt-LT) Presto/2.9.168 Version/11.00\", \"last_conn_date\": \"2024-01-28T13:39:48.232142\"}], [{\"user_id\": 3, \"user_name\": \"권성수\", \"user_agent\": \"Mozilla/5.0 (Android 11; Mobile; rv:24.0) Gecko/24.0 Firefox/24.0\", \"last_conn_date\": \"2024-01-28T13:39:08.934672\"}], [{\"user_id\": 2, \"user_name\": \"이현준\", \"user_agent\": \"Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/534.27.3 (KHTML, like Gecko) Version/5.0.3 Safari/534.27.3\", \"last_conn_date\": \"2024-01-28T13:39:08.210067\"}], [{\"user_id\": 1, \"user_name\": \"엄하은\", \"user_agent\": \"Mozilla/5.0 (Windows NT 6.2; om-ET; rv:1.9.0.20) Gecko/5009-09-11 23:10:09.665222 Firefox/3.6.13\", \"last_conn_date\": \"2024-01-28T13:39:06.118517\"}]]" "\"[{\\\"moviecd\\\": \\\"K21967\\\", \\\"moviename\\\": \\\"도망친 여자\\\", \\\"moviedirector\\\": \\\"홍상수\\\", \\\"publishyear\\\": \\\"2019\\\", \\\"cat1\\\": \\\"사사로운 영화리스트\\\", \\\"cat2\\\": \\\"2020\\\"}, {\\\"moviecd\\\": \\\"F02308\\\", \\\"moviename\\\": \\\"19번째 남자\\\", \\\"moviedirector\\\": \\\"론 셀턴\\\", \\\"publishyear\\\": \\\"1988\\\", \\\"cat1\\\": \\\"미국영화협회 AFI\\\", \\\"cat2\\\": \\\"AFI's 10 Top 10 (2008)\\\"}, {\\\"moviecd\\\": \\\"F22873\\\", \\\"moviename\\\": \\\"푸른 천사\\\", \\\"moviedirector\\\": \\\"요제프 폰 슈테른베르크\\\", \\\"publishyear\\\": \\\"1930\\\", \\\"cat1\\\": \\\"기타\\\", \\\"cat2\\\": \\\"죽기 전에 꼭 봐야 할 영화 1001 (2019)\\\"}]\""[centos@k8sel-521149 ~]$
 ```
 
-swagger api 문서 작업을 적용한다. 
+<br>
+swagger api 문서 작업을 적용합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi swagger.js
@@ -580,7 +510,8 @@ app.listen(port, () => {
 app listening port : 3000
 ```
 
-다른 터미널에서 http call을 수행해본다.
+<br>
+다른 터미널에서 http call을 수행해 봅니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ curl http://localhost:3000/v1/manage/hello
@@ -681,19 +612,23 @@ Hello World!
 "[[{\"user_id\": 4, \"user_name\": \"김성현\", \"user_agent\": \"Opera/9.20.(Windows NT 10.0; lt-LT) Presto/2.9.168 Version/11.00\", \"last_conn_date\": \"2024-01-28T13:39:48.232142\"}], [{\"user_id\": 3, \"user_name\": \"권성수\", \"user_agent\": \"Mozilla/5.0 (Android 11; Mobile; rv:24.0) Gecko/24.0 Firefox/24.0\", \"last_conn_date\": \"2024-01-28T13:39:08.934672\"}], [{\"user_id\": 2, \"user_name\": \"이현준\", \"user_agent\": \"Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/534.27.3 (KHTML, like Gecko) Version/5.0.3 Safari/534.27.3\", \"last_conn_date\": \"2024-01-28T13:39:08.210067\"}], [{\"user_id\": 1, \"user_name\": \"엄하은\", \"user_agent\": \"Mozilla/5.0 (Windows NT 6.2; om-ET; rv:1.9.0.20) Gecko/5009-09-11 23:10:09.665222 Firefox/3.6.13\", \"last_conn_date\": \"2024-01-28T13:39:06.118517\"}]]" "\"[{\\\"moviecd\\\": \\\"K21967\\\", \\\"moviename\\\": \\\"도망친 여자\\\", \\\"moviedirector\\\": \\\"홍상수\\\", \\\"publishyear\\\": \\\"2019\\\", \\\"cat1\\\": \\\"사사로운 영화리스트\\\", \\\"cat2\\\": \\\"2020\\\"}, {\\\"moviecd\\\": \\\"F02308\\\", \\\"moviename\\\": \\\"19번째 남자\\\", \\\"moviedirector\\\": \\\"론 셀턴\\\", \\\"publishyear\\\": \\\"1988\\\", \\\"cat1\\\": \\\"미국영화협회 AFI\\\", \\\"cat2\\\": \\\"AFI's 10 Top 10 (2008)\\\"}, {\\\"moviecd\\\": \\\"F22873\\\", \\\"moviename\\\": \\\"푸른 천사\\\", \\\"moviedirector\\\": \\\"요제프 폰 슈테른베르크\\\", \\\"publishyear\\\": \\\"1930\\\", \\\"cat1\\\": \\\"기타\\\", \\\"cat2\\\": \\\"죽기 전에 꼭 봐야 할 영화 1001 (2019)\\\"}]\""[centos@k8sel-521149 ~]$
 ```
 
-매니저서비스 API swagger 화면이다. 
+<br>
+매니저서비스 API swagger 화면 입니다. 
 
 ![Untitled](src/Untitled%2059.png)
 
-영화 관리 API swagger 이다. 
+<br>
+영화 관리 API swagger 입니다. 
 
 ![Untitled](src/Untitled%2060.png)
 
-사용자 관리 API swagger 이다. 
+<br>
+사용자 관리 API swagger 입니다. 
 
 ![Untitled](src/Untitled%2061.png)
 
-manage서비스 docker 이미지를 빌드한다. 
+<br>
+manage서비스의 docker 이미지를 빌드합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ kubectl get svc
@@ -878,15 +813,18 @@ users-68468f8bc7-8nz86              1/1     Running   14 (5h25m ago)   16d
 users-68468f8bc7-tltbm              1/1     Running   14 (5h25m ago)   16d
 ```
 
-manage 서비스 스웨거에 접속했다. 
+<br>
+manage 서비스 스웨거에 접속했습니다. 
 
 ![Untitled](src/Untitled%2062.png)
 
-manage 서비스 hello를 호출했다. 
+<br>
+manage 서비스 hello를 호출했습니다. 
 
 ![Untitled](src/Untitled%2063.png)
 
-manage 서비스를 call하여 유저서비스, 영화서비스를 조합한 결과를 반환했다. 
+<br>
+manage 서비스를 call하여 유저서비스, 영화서비스를 조합한 결과를 리턴 받았습니다. 
 
 ![Untitled](src/Untitled%2064.png)
 
