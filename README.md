@@ -66,8 +66,6 @@ Istio를 설치하여 서비스 간 통신 관리, 트래픽 라우팅, 로드 �
 - VirtualService, DestinationRule 사용
 - 서비스 간 트래픽 라우팅 및 통신 정책 설정
 
-![Istio Service Mesh](https://tse4.mm.bing.net/th/id/OIP.UHzWS_5xzVm08oSCVo5K1wHaHD?cb=12&pid=Api)
-
 ---
 
 ## 참고 자료
