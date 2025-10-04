@@ -33,5 +33,4 @@ Unable to find image 'mongo:7' locally
 mongosh mongodb://localhost:27018
 use admin
 db.createUser({ user:'mongo', pwd: 'mongo', roles: ['root'] })
-use test
-show collections
+exit
