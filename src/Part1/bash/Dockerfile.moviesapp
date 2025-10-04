@@ -1,0 +1,10 @@
+FROM quay.io/centos/centos:stream8
+RUN mkdir /app
+COPY movies.py requirements.txt movies.json /app
+WORKDIR /app
+RUN dnf install -y python38 && \
+    dnf clean all && \
+    pip3 install -r requirements.txt
+EXPOSE 5000
+ENV FLASK_APP=movies
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
