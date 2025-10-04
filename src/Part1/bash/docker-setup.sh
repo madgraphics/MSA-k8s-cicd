@@ -19,4 +19,7 @@ docker run --restart unless-stopped -p 5430:5432 --name testdb-postgres -v pgdat
 psql -h localhost -U postgres -p 5430
 create database users;
 \c users
+\i users.sql
 \q
+
+
