@@ -1051,12 +1051,10 @@ Handling connection for 8000
 ```
 
 <br><br>
-### 9. minikube기반 k8s 플랫폼으로 샘플 앱 배포
-
-[mongodb operator](https://www.notion.so/mongodb-operator-768adcda2c6c485fae6bc7fb9b2e9c3a?pvs=21)
+### 5. k8s 플랫폼에 샘플 앱 배포
 
 <br>
-mongodb.yaml 을 작성합니다. 
+mongodb.yaml을 작성한후 k8s에 배포합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi mongodb.yaml
@@ -1200,10 +1198,8 @@ For mongosh info see: https://docs.mongodb.com/mongodb-shell/
 
 test>
 ```
-
-postgres.yaml을 작성한다. 
-
-[https://www.airplane.dev/blog/deploy-postgres-on-kubernetes](https://www.airplane.dev/blog/deploy-postgres-on-kubernetes)
+<br>
+postgres.yaml을 작성한후 k8s에 배포합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi postgres.yaml
@@ -1326,12 +1322,12 @@ Type "help" for help.
 postgres=# \q
 postgres@postgres-76fb566885-rdfp2:~$
 ```
-
-[user.py](http://user.py) 와 [movies.py](http://movies.py) 를 수정하고 dockerimage 를 새로 빌드하겠다.
+<br>
+user.py 와 movies.py 를 수정하고 dockerimage 를 새로 빌드합니다.
 
 mongodb와 postgres가 k8s에서 서비스-clusterIP를 가지고 있고, 
 
-flask앱은 k8s안에서 서비스명을 통해 DB를 바라보게 구성한다. (k8s내 DNS가 서비스명으로 endpoint 관리 제공)
+flask앱은 k8s안에서 서비스명을 통해 DB를 바라보게 구성합니다. (k8s내 DNS가 서비스명으로 endpoint를 제공)
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi movies.py
@@ -1393,8 +1389,8 @@ users_host_ip = 'postgres-service'
  => => writing image sha256:6ea8c17ad07fd1c71c64f9005a69ca71e3ab9f66c623917bf18a393cd997e87e                                     0.0s 
  => => naming to docker.io/library/users:v1.0                                                                                    0.0s 
 ```
-
-minikube에 도커 이미지를 로드한다. (minikube 에 image 유지 됨)
+<br>
+k8s에 도커 이미지를 로드합니다. (minikube에 image로 관리)
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ docker images
@@ -1405,8 +1401,8 @@ movies                        v1.0      51125416096b   43 minutes ago   349MB
 (msaapp) [centos@k8sel-521149 msaapp]$ minikube image load movies:v1.0
 (msaapp) [centos@k8sel-521149 msaapp]$ minikube image load users:v1.0
 ```
-
-yaml을 작성한다.
+<br>
+샘플 앱을 위한 yaml을 작성합니다.
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ vi users.yaml
@@ -1491,8 +1487,8 @@ spec:
   selector:
     app: movies
 ```
-
-리플리카 pod 3개와 서비스를 배포한다. 
+<br>
+리플리카 pod 3개와 서비스를 배포합니다. 
 
 ```jsx
 (msaapp) [centos@k8sel-521149 msaapp]$ kubectl apply -f users.yaml
@@ -1585,36 +1581,6 @@ kube-system   replicaset.apps/coredns-5dd5756b68   1         1         1       2
 [[{"user_id": 4, "user_name": "김성현", "user_agent": "Opera/9.20.(Windows NT 10.0; lt-LT) Presto/2.9.168 Version/11.00", "last_conn_date": "2024-01-28T13:39:48.232142"}], [{"user_id": 3, "user_name": "권성수", "user_agent": "Mozilla/5.0 (Android 11; Mobile; rv:24.0) Gecko/24.0 Firefox/24.0", "last_conn_date": "2024-01-28T13:39:08.934672"}], [{"user_id": 2, "user_name": "이현준", "user_agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/534.27.3 (KHTML, like Gecko) Version/5.0.3 Safari/534.27.3", "last_conn_date": "2024-01-28T13:39:08.210067"}], [{"user_id": 1, "user_name": "엄하은", "user_agent": "Mozilla/5.0 (Windows NT 6.2; om-ET; rv:1.9.0.20) Gecko/5009-09-11 23:10:09.665222 Firefox/3.6.13", "last_conn_date": "2024-01-28T13:39:06.118517"}]](msaapp) [centos@k8sel-521149 msaapp]$
 ```
 
-minikube에서 도커 이미지 연계 다른 방법. (minikube 재기동 시 image push를 다시 해줘야 함)
-
-```jsx
-(msaapp) [centos@k8sel-521149 msaapp]$ minikube config set insecure-registry "0.0.0.0/24"
-(msaapp) [centos@k8sel-521149 msaapp]$ minikube config view
-- cpus: 2
-- driver: docker
-- insecure-registry: 0.0.0.0/24
-- memory: 32G
-```
-
-minikube 재기동 후, minikube registry의 clusterIP를 통해 사용이 가능하다. yaml을 수정한다.
-
-```jsx
-(msaapp) [centos@k8sel-521149 msaapp]$ vi users.yaml
- 
-    spec:
-      containers:
-      - image: 10.96.74.176:80/users:v1.0
-        imagePullPolicy: IfNotPresent
- 
-
-(msaapp) [centos@k8sel-521149 msaapp]$ vi movies.yaml
- 
-    spec:
-      containers:
-      - name: movies
-        image: 10.96.74.176:80/movies:v1.0
- 
-```
 
 ### 10. gitlab CI 구성
 
