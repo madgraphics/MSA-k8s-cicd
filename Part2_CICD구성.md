@@ -366,12 +366,11 @@ Gitlab에 내장된 CI는 파이프라인 파일인 .gitlab-ci.yml을 커밋하�
 ![Untitled](src/Untitled%2032.png)
 
 
+<br>
 ## 2. ArgoCD를 활용한 k8s CICD 구성
 
  <br>
-k8s에 argocd를 구성한다. 
-
-k8s에 구성 시 설치된 클러스터의 환경을 쉽게 읽어오며, 소스 리파지토리만 연계해 두면 PULL 방식으로 SYNC관리를 한다.
+k8s에 argocd를 구성합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl create namespace argocd
@@ -435,14 +434,16 @@ networkpolicy.networking.k8s.io/argocd-repo-server-network-policy created
 networkpolicy.networking.k8s.io/argocd-server-network-policy created
 ```
 
-UI에 없는 기능이 있으므로, 관리용으로 argocd CLI도 설치한다. 
+<br>
+argocd 관리용으로 argocd CLI도 설치합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 [centos@k8sel-521149 ~]$ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 ```
 
-admin패스워드를 확인하고, port-forward를 수행한다. 
+<br>
+admin패스워드를 확인하고, port-forward를 수행합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
@@ -454,38 +455,34 @@ admin패스워드를 확인하고, port-forward를 수행한다.
 Forwarding from [::1]:8080 -> 8080
 ```
 
-로컬호스트:8080 으로 접속하면 argocd api서버에 gui방식으로 접속할 수 있다.
+<br>
+로컬호스트:8080 으로 접속하면 argocd api서버에 gui방식으로 접속할 수 있습니다.
 
 - Username : admin
 - Paaword : <위에서 확인한 패스워드>
 
 ![Untitled](src/Untitled%2033.png)
 
-로그인이 되었다. 
+<br>
+로그인이 되었습니다. 
 
 ![Untitled](src/Untitled%2034.png)
 
-왼쪽 메뉴에서 User Info > UPDATE PASSWORD 를 선택한다.
+<br>
+왼쪽 메뉴에서 User Info > UPDATE PASSWORD 를 선택합니다.
 
 ![Untitled](src/Untitled%2035.png)
 
-admin 패스워드를 업데이트 한다. 
+<br>
+admin 패스워드를 업데이트 합니다. 
 
 ![Untitled](src/Untitled%2036.png)
 
 ![Untitled](src/Untitled%2037.png)
 
-[~~https://velog.io/@wickedev/Gitlab-CICD-튜토리얼-bljzphditt~~](https://velog.io/@wickedev/Gitlab-CICD-%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC-bljzphditt)
-
-TLS gitlab 구성 좋은 예시
-
-[https://freedeveloper.tistory.com/461](https://freedeveloper.tistory.com/461)
-
-argocd 좋은 예제 
-
-[https://engmisankim.tistory.com/58](https://engmisankim.tistory.com/58)
-
-argocd에 cli로 로그인한다. 
+ 
+<br>
+argocd에 cli로 로그인합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ argocd --insecure login localhost:8080
@@ -497,7 +494,8 @@ Context 'localhost:8080' updated
 [centos@k8sel-521149 ~]$
 ```
 
-타겟 클러스터를 등록한다. argocd가 설치된 클러스터의 경우, 아주 쉽게 권한을 생성해서 연동한다. 
+<br>
+타겟 클러스터를 등록합니다. argocd가 설치된 클러스터의 경우, 아주 쉽게 권한을 생성해서 연동할 수 있습니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl config get-contexts -o name
@@ -512,7 +510,8 @@ INFO[0010] Created bearer token secret for ServiceAccount "argocd-manager"
 Cluster 'https://192.168.49.2:8443' added
 ```
 
-argocd의 샘플 앱을 배포해 본다.
+<br>
+argocd의 샘플 앱을 배포해 봅니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
@@ -539,15 +538,18 @@ apps   Deployment  default    guestbook-ui  OutOfSync  Missing
 [centos@k8sel-521149 ~]$
 ```
 
-gusetbook app이 생성되었다.
+<br>
+gusetbook app이 생성 되었습니다.
 
 ![Untitled](src/Untitled%2038.png)
 
-sync버튼을 누르고, synchronize를 선택한다. 
+<br>
+sync버튼을 누르고, synchronize를 선택합니다. 
 
 ![Untitled](src/Untitled%2039.png)
 
-k8s에 배포가 되고있다. 
+<br>
+k8s에 배포가 되고 있습니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl get all -A
@@ -566,15 +568,18 @@ default       pod/movies-744b4586c4-nrmfk                            1/1     Run
 default       pod/movies-744b4586c4-s452w                            1/1     Running             9 (51m ago)    8d
 ```
 
-sync가 완료되었다. 
+<br>
+sync가 완료 되었습니다. 
 
 ![Untitled](src/Untitled%2040.png)
 
-guestbook을 클릭하여 상세 배포내용을 볼수 있다. 
+<br>
+guestbook을 클릭하여 상세 배포내용을 볼수 있습니다. 
 
 ![Untitled](src/Untitled%2041.png)
 
-샘플 app을 포트포워드 한다. 
+<br>
+샘플 app을 포트포워드 합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ kubectl port-forward -n default service/guestbook-ui 8880:80 &
@@ -583,19 +588,18 @@ guestbook을 클릭하여 상세 배포내용을 볼수 있다.
 Forwarding from [::1]:8880 -> 80
 ```
 
-브라우저로 접속한 결과이다. 
+<br>
+브라우저로 접속한 샘플앱 모습입니다. 
 
 ![Untitled](src/Untitled%2042.png)
 
-### 12. ArgoCD and Gitlab 연계
+<br>
+## 3. ArgoCD and Gitlab 연계
 
-Settings > Repositories에서 UI방식으로 생성할 수 있다.
+<br>
+리파지토리 연동은 HTTPS, SSH방식이 가능합니다.
 
-![Untitled](src/Untitled%2043.png)
-
-리파지토리 연동은 HTTPS, SSH방식이 가능하다.
-
-SSH방식으로 gitlab private repository를 등록하기 위해 ssh 키쌍을 생성한다. 
+SSH방식으로 gitlab private repository를 등록하기 위해 우선 ssh 키쌍을 생성이 필요합니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ ssh-keygen -f argocd
@@ -623,39 +627,45 @@ The key's randomart image is:
 argocd  argocd.pub
 
 ```
-
-gitlab에 가서, 유저메뉴에서 edit profile을 선택한다.
+<br>
+gitlab에 가서, 유저메뉴에서 edit profile을 선택합니다.
 
 ![Untitled](src/Untitled%2044.png)
 
-왼쪽의 SSH Keys를 선택한다. 
+<br>
+왼쪽의 SSH Keys를 선택합니다. 
 
 ![Untitled](src/Untitled%2045.png)
 
-Add keys를 선택후, 만들어둔 [argocd.pub](http://argocd.pub) 파일의 내용을 붙여넣기한다. 
+<br>
+Add keys를 선택후, 만들어둔 argocd.pub 파일의 내용을 붙여넣기 합니다. 
 
 ![Untitled](src/Untitled%2046.png)
 
-등록이 완료되었다. 
+<br>
+등록이 완료 되었습니다. 
 
 ![Untitled](src/Untitled%2047.png)
 
-argocd cli로 리파지토리를 등록한다.
+<br>
+argocd cli로 리파지토리를 등록 합니다.
 
-argocd가 있는 k8s pod N/W에서 VM OS를 거쳐, 도커 컨테이너 N/W인 gitlab서버의 2424 포트와 통신해야 하므로, VM의 private IP를 바라보게 했다. 
+argocd가 있는 k8s pod N/W에서 VM OS를 거쳐, 도커 컨테이너 N/W인 gitlab서버의 2424 포트와 통신해야 하므로, VM의 private IP를 바라보게 했습니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ argocd repo add ssh://git@10.0.0.13:2424/devadm/msaapp.git --insecure-skip-server-verification --ssh-private-key-path ./argocd
 Repository 'ssh://git@10.0.0.13:2424/devadm/msaapp.git' added
 ```
 
-Settings > Repositories에 리파지토리가 생겼다. 
+<br>
+Settings > Repositories에 리파지토리가 생성 되었습니다. 
 
 ![Untitled](src/Untitled%2048.png)
 
-argocd 어플리케이션을 생성하겠다.
+<br>
+argocd 어플리케이션을 생성합니다.
 
-다음과 같이 입력하고 CREATE 한다. 
+다음과 같이 입력하고 CREATE 합니다. 
 
 - General
     - Application Name : msaapp
@@ -678,19 +688,16 @@ argocd 어플리케이션을 생성하겠다.
 
 ![Untitled](src/Untitled%2052.png)
 
-앱이 생성되었다. 
+
+<br>
+앱이 생성되었습니다. 
 
 ![Untitled](src/Untitled%2053.png)
 
-user app, moviews app, nginx 3개의 yaml을 sync하는 argocd앱이다. 
 
-nginx는 배포가 안된 상태인데, SYNC를 수행해 본다. 
+<br>
+user app, movies app등의 yaml을 sync하는 argocd앱 입니다. 
 
-![Untitled](src/Untitled%2054.png)
-
-nginx도 배포되었고, Sync가 완료되었다. 
-
-![Untitled](src/Untitled%2055.png)
 
 ### 13. Istio와 서비스 메시 모니터링도구 구성
 
