@@ -12,3 +12,11 @@ sudo systemctl restart docker
 # PostgreSQL 데이터 볼륨 생성
 docker volume create pgdata
 docker volume inspect pgdata
+
+# postgres 컨테이너
+docker run --restart unless-stopped -p 5430:5432 --name testdb-postgres -v pgdata:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres -d postgres:16
+
+psql -h localhost -U postgres -p 5430
+create database users;
+\c users
+\q
