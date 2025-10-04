@@ -114,13 +114,16 @@ udp6       0      0 ::1:323                 :::*                                
 
 ![Untitled](src/Untitled%208.png)
 
+
+테스트를 위한 VM 구성이 완료되었습니다. 
+권장 VM 사양은 CPU 8vcpu, Storage 50GB 입니다.
+
 <br><br>
 
 ### 2. 개발 DB 구성 (postgreSQL, MongoDB)
 
 <br>
 
-참조 URL : [https://www.postgresql.org/download/linux/redhat/](https://www.postgresql.org/download/linux/redhat/)
 
 ![Untitled](src/Untitled%2010.png)
 
@@ -161,7 +164,7 @@ postgres=# alter user postgres with password 'postgres';
 ALTER ROLE
 ```
 <br>
-샘플 데이터를 조회해 봅니다. (DVD 렌탈 데이터)
+샘플 데이터를 적재하고 조회해 봅니다. (DVD 렌탈 데이터)
 
 ```jsx
 [postgres@k8sel-521149 ~]$ wget https://www.postgresqltutorial.com/wp-content/uploads/2019/05/dvdrental.zip
@@ -197,9 +200,8 @@ dvdrental=# \q
 [postgres@k8sel-521149 ~]$ exit
 [centos@k8sel-521149 ~]$
 ```
-<br>
-참조 URL : [https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/)
-<br>
+ 
+ <br>
 mongodb7 을 설치합니다. 
 
 ```jsx
@@ -220,12 +222,9 @@ gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
 
 [centos@k8sel-521149 ~]$ sudo systemctl start mongod
 ```
-<br>
-참조 URL: [https://www.mongodb.com/docs/manual/tutorial/getting-started/](https://www.mongodb.com/docs/manual/tutorial/getting-started/) 
 
-                 [https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate](https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate)
 <br>
-접속하여 샘플 데이터를 조회해 봅니다. 
+접속하여 샘플 데이터를 테스트해 봅니다. 
 
 ```jsx
 [centos@k8sel-521149 ~]$ mongosh
@@ -260,25 +259,9 @@ test> db.cakeSales.aggregate(
 [ { _id: 2, flavor: 'strawberry', salesTotal: 4350 } ]
 test>
 ```
-<br>
-샘플 데이터 및 aggregate 메소드를 테스트해 봅니다. 
 
-```jsx
-db.cakeSales.insertMany( [
-   { _id: 1, flavor: "chocolate", salesTotal: 1580 },
-   { _id: 2, flavor: "strawberry", salesTotal: 4350 },
-   { _id: 3, flavor: "cherry", salesTotal: 2150 }
-] )
-
-db.cakeSales.aggregate(
-   [
-      { $match: {
-         $expr: { $gt: [ "$salesTotal", "$$targetTotal" ] }
-      } }
-   ],
-   { let: { targetTotal: 3000 } }
-)
-```
+개발 DB 환경 구성이 완료되었습니다.
+ 
 <br><br>
 ### 3. Python Flask 개발 환경 구성
 <br>
@@ -371,7 +354,7 @@ CREATE TABLE users
 );
 ```
 <br>
-[users.py](http://users.py) 를 작성합니다. 
+users.py 를 작성합니다. 
 
 ```jsx
 import logging, psycopg2, json
@@ -492,7 +475,7 @@ For mongosh info see: https://docs.mongodb.com/mongodb-shell/
 test>
 ```
 <br>
-[movies.py](http://movies.py) 를 작성합니다. 
+movies.py 를 작성합니다. 
 
 ```jsx
 import logging, json
@@ -583,15 +566,11 @@ if __name__ == "__main__":
     app.debug = True
     app.run(host="0.0.0.0", port=int("5000"))
 ```
-<br>
-한국영상자료원 KMDB 영화리스트
 
-[movies.json](src/movies.json)
 <br><br>
 ### 5. DB와 python flask앱을 docker기반으로 배포 
 <br>
-![Untitled](src/Untitled%2011.png)
-<br>
+
 docker hub에 있는 이미지를 기반으로 nginx를 배포합니다.
 
 ```jsx
@@ -638,7 +617,7 @@ exit
 [centos@k8sel-521149 ~]$
 ```
 <br>
-VM내 fireforx를 기동하고 [http://localhost:8080](http://localhost:8080) 에 접속하여 nginx 웰컴페이지에 접속할 수 있습니다. 
+VM내 fireforx를 기동하고 http://localhost:8080 에 접속하여 nginx 웰컴페이지에 접속할 수 있습니다. 
 
 ![Untitled](src/Untitled%2012.png)
 <br>
