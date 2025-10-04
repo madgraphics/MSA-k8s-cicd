@@ -1,77 +1,12 @@
 # 마이크로서비스 & 서비스메시 아키텍처
 
-### 1. 환경
-
-[virtual box 구성](https://www.notion.so/virtual-box-40f62f592d964ae5ab3a6e713a083fae?pvs=21)
-
-centos8 이미지를 사용하는 OCI IaaS VM을 생성하여 테스트 함. 
-
-개발을 진행하고, 최종 작업은 Windows 환경의 VirtualBox에서 테스트 함.
-
-테스트한 Image 캡쳐화면이다.
-
-![Untitled](src/Untitled.png)
-
- 
-
-테스트한 인스턴스 Shape 캡쳐화면이다.
-
-![Untitled](src/Untitled%201.png)
-
-![Untitled](src/Untitled%202.png)
-
-**처음에는 위의 셋업으로 만들었으나, 모든 테스트 진행한 결과 OCI IaaS VM에서 Boot Volume은 50~60G가 필요함 (40GB도 부족함)**
-
-IaaS를 구성한다. 
-
-OCI콘솔에서 Compute > Instances > Create Instance 를 선택한다. 
-
-![Untitled](src/Untitled%203.png)
-
-Image > Change Image 해서 CentOS 8 Stream을 선택한다. 
-
-![Untitled](src/Untitled%204.png)
-
-Shape은 4Core, Mem 64GB로 한다. 
-
-![Untitled](src/Untitled%205.png)
-
-Boot Volume을 60GB정도로 설정한 후 VM을 생성한다. 
-
-![Untitled](src/Untitled%206.png)
-
-### 2. 목표
-
-- ~~centos8을 띄우고 VNC 접속~~
-- ~~로컬에 postgresql, mongodb 설치~~
-- ~~python flask 개발 환경 구성~~
-- ~~도커 구성~~
-- ~~DB to python 앱 연계~~
-- ~~DB docker to python docker 앱 연계~~
-- ~~minikube 구성~~
-- ~~DB operator를 활용한 db  paas 구성~~
-- ~~k8s 에 PV,PVC 활용 mongo, postgres 배포~~
-- ~~app pod 배포~~
-- ~~istio 구성~~
-- ~~prometheus, grafana, kiali, yaegur, ELK 모니터링~~
-- ~~service mesh 구성 확인 (3개 서비스 연계)~~
-- ~~k8s pod 부하테스트 및 오토스케일링~~
-- ~~카나리 배포, rolling update, 기타 테스트~~
-- ~~gitlab과 argocd를 이용한 CI / CD~~
-
-### 3. CentOS Stream 8 x86환경 구성
+### 1. CentOS Stream 8 x86환경 구성
 
 참조 URL : [https://rahul-official-150.medium.com/docker-inside-a-docker-container-e7ae144464f0](https://rahul-official-150.medium.com/docker-inside-a-docker-container-e7ae144464f0)
 
-실습환경으로 가기 위한 가상 환경을 구현하겠다. 
+실습환경을 위한 가상 환경을 구현합니다.
 
-OCI IaaS VM에 접속한다. 
-
-```jsx
-junghoonyoo@junghoonyoo-mac Downloads % **ssh -i ./ssh-key-2023-04-16.key opc@64.110.71.221**
-```
-
-centos 유저를 추가한다
+centos 유저를 추가합니다.
 
 ```jsx
 [opc@k8sel-521149 ~]$ **sudo su -**
@@ -85,7 +20,7 @@ centos 유저를 추가한다
 [root@k8sel-521149 ~]# **sudo su - centos**
 ```
 
-도커를 설치한다 
+도커를 설치합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ **sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo**
@@ -97,7 +32,7 @@ centos 유저를 추가한다
 [centos@k8sel-521149 ~]$ **sudo systemctl start docker.service**
 ```
 
-non Root 유저가 docker 커맨드를 수행하기 위한 작업을 수행한다.
+non Root 유저가 docker 커맨드를 수행하기 위한 작업을 수행합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ **sudo usermod -aG docker centos**
@@ -111,7 +46,7 @@ non Root 유저가 docker 커맨드를 수행하기 위한 작업을 수행한�
 [centos@k8sel-521149 ~]$ **docker ps**
 ```
 
-“Server with GUI” 그룹 인스톨을 셋업하여 GUI환경을 구성한다.
+“Server with GUI” 그룹 인스톨을 셋업하여 GUI환경을 구성합니다.
 
 ```jsx
 [centos@k8sel-521149 ~]$ **sudo dnf -y update**
@@ -170,7 +105,7 @@ udp6       0      0 ::1:323                 :::*                                
 [centos@k8sel-521149 ~]$ **sudo firewall-cmd --reload**
 ```
 
-OCI 시큐리티리스트에서 5901을 오픈한 후 접속한다. 
+5901 포트를 오픈한 후 접속합니다.
 
 ![Untitled](src/Untitled%207.png)
 
