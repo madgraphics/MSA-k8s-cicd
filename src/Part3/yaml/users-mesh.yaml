@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: users
+  name: users
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: users
+      version : v1.0
+  template:
+    metadata:
+      labels:
+        app: users
+        version : v1.0
+    spec:
+      containers:
+      - image: docker.io/library/users:v1.0
+        imagePullPolicy: IfNotPresent
+        name: users
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: users
+  name: users-service
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+  selector:
